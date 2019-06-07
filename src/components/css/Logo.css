@@ -1,0 +1,11 @@
+.Tilt {
+  	background-image: radial-gradient(circle, rgb(255, 140, 20) 20%, rgb(150, 90, 250) 90%);
+	height: 150px;
+	width: 150px;
+	border-radius: 100px;
+}
+
+.tiltbox {
+	padding-top: 25px;
+	border-radius: 100px;
+}
