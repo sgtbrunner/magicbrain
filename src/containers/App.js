@@ -36,8 +36,26 @@ class App extends Component {
         imageUrl: '',
         box: {},
         route: 'signin',
-        signedIn: false
-    }
+        signedIn: false,
+        user: {
+          id:'',
+          name: '',
+          email: '',
+          entries: 0,
+          joined: ''
+        }
+      }
+  }
+
+  // CALLED EVERYTIME A USER LOGS IN
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }});
   }
 
   // TRIGGERED EVERYTIME INPUT CHANGES
@@ -52,7 +70,6 @@ class App extends Component {
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log(width, height);
     return ({
         leftCol: clarifaiFace.left_col * width,
         topRow: clarifaiFace.top_row * height,
@@ -62,22 +79,42 @@ class App extends Component {
   }
 
   displayFaceBox = box => {
-    console.log(box);
     this.setState({box: box});
   }
 
-  // TRIGGERED EVERYTIME BUTTON IS CLICKED
+  // TRIGGERED EVERYTIME DETECT BUTTON IS CLICKED
   // app.models.predit is an asynchronous Clarifai syntax
-  onButtonClick = () => {
+  onImageDetect = () => {
     this.setState({imageUrl: this.state.input});
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-    .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    .then(response => {
+      if (response) {
+        fetch('http://localhost:3000/image', {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            "id": this.state.user.id
+        })})
+          .then(response => response.json())
+          .then(count => this.setState(Object.assign(this.state.user, {entries: count})));
+      }
+      this.displayFaceBox(this.calculateFaceLocation(response))
+    })
     .catch(err => console.log(err)); 
   }
 
   onRouteChange = (route) => {
     route==='home' ? this.setState({signedIn: true}) : this.setState({signedIn: false});
     this.setState({route: route});
+    this.setState({imageUrl: ''});
+  }
+
+  clearFields = () => {
+    if(document.getElementById('name')) {
+      document.getElementById('name').value='';
+    }
+    document.getElementById('email-address').value='';
+    document.getElementById('password').value='';
   }
 
   render() {
@@ -91,19 +128,27 @@ class App extends Component {
           />
           { this.state.route === 'home' ?
               <div>
-                <Rank />
+                <Rank name={this.state.user.name} entries={this.state.user.entries}/>
                 <Logo />
                 <ImageLinkForm onInputChange={this.onInputChange} 
-                                onButtonClick={this.onButtonClick}
+                               onButtonClick={this.onImageDetect}
                 />
                 <FaceRecognition imageUrl={this.state.imageUrl}
-                                   box={this.state.box}
+                                 box={this.state.box}
                 />
               </div>  
     		      : this.state.route === 'signin' ?
-                <SignIn onRouteChange={this.onRouteChange}/>
+                <SignIn loadUser={this.loadUser} 
+                        onRouteChange={this.onRouteChange} 
+                        clearFields={this.clearFields}
+                        handleKeyPress={this.handleKeyPress}
+                />
               : 
-                <Register onRouteChange={this.onRouteChange}/>
+                <Register loadUser ={this.loadUser} 
+                          onRouteChange={this.onRouteChange} 
+                          clearFields={this.clearFields}
+                          handleKeyPress={this.handleKeyPress}
+                />
           }
     		</div>            
     );
