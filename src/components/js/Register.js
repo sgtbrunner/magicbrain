@@ -30,7 +30,7 @@ class Register extends React.Component {
 
   onRegisterSubmit = () => {
     if(this.state.name && this.state.email && this.state.password) {
-      fetch('http://localhost:3000/register', {
+      fetch('https://shielded-reaches-78464.herokuapp.com/register', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -48,7 +48,7 @@ class Register extends React.Component {
           } else {
             window.alert(user);
             this.props.clearFields();
-          }});
+          }})
     } else {
       window.alert ('Name, Email and Password fields should be filled in!')
     }

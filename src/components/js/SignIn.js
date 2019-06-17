@@ -25,7 +25,7 @@ class SignIn extends React.Component {
 
   onSignInSubmit = () => {
     if(this.state.signInEmail && this.state.signInPassword) {
-      fetch('http://localhost:3000/signin', {
+      fetch('https://shielded-reaches-78464.herokuapp.com/signin', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -42,7 +42,7 @@ class SignIn extends React.Component {
           window.alert('Invalid user and/or password');
           this.props.clearFields();
         }
-      });
+      })
     } else {
       window.alert ('Email and Password fields should be filled in');
     }

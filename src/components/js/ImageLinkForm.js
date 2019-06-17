@@ -10,10 +10,10 @@ const ImageLinkForm = ({onInputChange, onButtonClick}) => {
 					<input 
 						className ='f4 pa2 w-70 centered ba' 
 						type='text'
-						placeholder='enter the image url here'
+						placeholder='enter the image URL here'
 						onChange = {onInputChange}
 					/> 
-					<button className ='w-30 f4 link ph3 pv2 dib light bg-light-purple'
+					<button className ='w-30 f4 link ph3 pv2 dib light bg-light-purple noselect'
 							onClick ={onButtonClick} >Detect
 					</button>
 				</div>
