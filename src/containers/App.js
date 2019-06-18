@@ -90,7 +90,6 @@ class App extends Component {
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response);
       if (response.outputs) {
         fetch('https://shielded-reaches-78464.herokuapp.com/image', {
           method: 'PUT',
