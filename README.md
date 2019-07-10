@@ -4,8 +4,8 @@ A modern web application which identifies faces in images and display its bounda
 
 ## Prerequisites
 
-NPM installed
-MagicBrain API set and running in order to the back-end to work
+NPM installed<br>
+MagicBrain API set and running in order to the back-end to work<br>
 Clarifai API Key - Get yours at https://www.clarifai.com/
 
 ## Getting Started
