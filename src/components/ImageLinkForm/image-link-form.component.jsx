@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './image-link-form.styles.css';
 
 const ImageLinkForm = ({ onInputChange, onButtonClick }) => {
@@ -18,6 +20,7 @@ const ImageLinkForm = ({ onInputChange, onButtonClick }) => {
           <button
             className="w-30 f4 link ph3 pv2 dib light bg-light-purple noselect"
             onClick={onButtonClick}
+            type="button"
           >
             Detect
           </button>
@@ -25,6 +28,11 @@ const ImageLinkForm = ({ onInputChange, onButtonClick }) => {
       </div>
     </div>
   );
+};
+
+ImageLinkForm.propTypes = {
+  onInputChange: PropTypes.func.isRequired,
+  onButtonClick: PropTypes.func.isRequired,
 };
 
 export default ImageLinkForm;
