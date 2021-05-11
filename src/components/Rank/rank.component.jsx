@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Rank = ({ name, entries }) => {
   return (
@@ -7,6 +8,11 @@ const Rank = ({ name, entries }) => {
       <div className="white f2">{entries}</div>
     </div>
   );
+};
+
+Rank.propTypes = {
+  name: PropTypes.string.isRequired,
+  entries: PropTypes.number.isRequired,
 };
 
 export default Rank;

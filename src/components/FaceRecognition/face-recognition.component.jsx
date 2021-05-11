@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './face-recognition.styles.css';
 
 const FaceRecognition = ({ imageUrl, box }) => {
@@ -13,6 +15,16 @@ const FaceRecognition = ({ imageUrl, box }) => {
       </div>
     </div>
   );
+};
+
+FaceRecognition.propTypes = {
+  imageUrl: PropTypes.string.isRequired,
+  box: PropTypes.shape({
+    topRow: PropTypes.number,
+    bottomRow: PropTypes.number,
+    rightCol: PropTypes.number,
+    leftCol: PropTypes.number,
+  }).isRequired,
 };
 
 export default FaceRecognition;

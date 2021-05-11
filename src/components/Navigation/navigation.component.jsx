@@ -1,36 +1,46 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './navigation.styles.css';
 
 const Navigation = ({ onRouteChange, signedIn }) => {
   if (!signedIn) {
     return (
       <nav className="navigation-bar">
-        <p
+        <button
           className="f4 link dim black underline pa3 pointer noselect"
           onClick={() => onRouteChange('signin')}
+          type="button"
         >
           Sign In
-        </p>
-        <p
+        </button>
+        <button
           className="f4 link dim black underline pa3 pointer noselect"
           onClick={() => onRouteChange('register')}
+          type="button"
         >
           Register
-        </p>
+        </button>
       </nav>
     );
   } else {
     return (
       <nav className="navigation-bar">
-        <p
-          className="f4 link dim black underline pa3 pointer noselect"
+        <button
+          className="f4 link dim black underline pa4 pointer noselect"
           onClick={() => onRouteChange('signin')}
+          type="button"
         >
           Sign Out
-        </p>
+        </button>
       </nav>
     );
   }
+};
+
+Navigation.propTypes = {
+  onRouteChange: PropTypes.func.isRequired,
+  signedIn: PropTypes.bool.isRequired,
 };
 
 export default Navigation;
