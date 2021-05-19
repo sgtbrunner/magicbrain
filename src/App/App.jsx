@@ -142,14 +142,12 @@ class App extends Component {
             loadUser={this.loadUser}
             onRouteChange={this.onRouteChange}
             clearFields={this.clearFields}
-            handleKeyPress={this.handleKeyPress}
           />
         ) : (
           <Register
             loadUser={this.loadUser}
             onRouteChange={this.onRouteChange}
             clearFields={this.clearFields}
-            handleKeyPress={this.handleKeyPress}
           />
         )}
       </div>
