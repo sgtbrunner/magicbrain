@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { REACT_APP_API_ENDPOINT } from '../../utils/constants';
+
 const Register = ({ loadUser, onRouteChange, clearFields }) => {
   const [registrationData, setRegisterData] = useState({
     name: '',
@@ -23,7 +25,7 @@ const Register = ({ loadUser, onRouteChange, clearFields }) => {
 
   const onRegisterSubmit = () => {
     if (name && email && password) {
-      fetch('http://shielded-reaches-78464.herokuapp.com/register', {
+      fetch(`${REACT_APP_API_ENDPOINT}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

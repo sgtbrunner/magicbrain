@@ -8,20 +8,9 @@ import ImageLinkForm from '../components/ImageLinkForm';
 import FaceRecognition from '../components/FaceRecognition';
 import SignIn from '../components/SignIn';
 import Register from '../components/Register';
+import { PARTICLE_OPTIONS, REACT_APP_API_ENDPOINT } from '../utils/constants';
 import 'tachyons';
 import './App.css';
-
-const particlesOptions = {
-  particles: {
-    number: {
-      value: 50,
-      density: {
-        enable: true,
-        value_area: 500,
-      },
-    },
-  },
-};
 
 const App = () => {
   const [state, setState] = useState({
@@ -30,27 +19,26 @@ const App = () => {
     box: {},
     route: 'signin',
     signedIn: false,
-    user: {
-      id: '',
-      name: '',
-      email: '',
-      entries: 0,
-      joined: '',
-    },
   });
 
-  const { input, imageUrl, box, route, signedIn, user } = state;
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  });
+
+  const { input, imageUrl, box, route, signedIn } = state;
+  const { id, name, entries } = user;
 
   const loadUser = (data) => {
-    setState({
-      ...state,
-      user: {
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        entries: data.entries,
-        joined: data.joined,
-      },
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: Number(data.entries),
+      joined: data.joined,
     });
   };
 
@@ -76,8 +64,8 @@ const App = () => {
   };
 
   const onImageDetect = () => {
-    setState({ imageUrl: input });
-    fetch('https://shielded-reaches-78464.herokuapp.com/imageurl', {
+    setState({ ...state, imageUrl: input });
+    fetch(`${REACT_APP_API_ENDPOINT}/imageurl`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -87,15 +75,15 @@ const App = () => {
       .then((response) => response.json())
       .then((response) => {
         if (response.outputs) {
-          fetch('https://shielded-reaches-78464.herokuapp.com/image', {
+          fetch(`${REACT_APP_API_ENDPOINT}/image`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              id: user.id,
+              id,
             }),
           })
             .then((response) => response.json())
-            .then((count) => setState({ ...state, user: { ...user, entries: count } }))
+            .then((count) => setUser({ ...user, entries: Number(count) }))
             .catch(console.log);
         }
         displayFaceBox(calculateFaceLocation(response));
@@ -119,11 +107,11 @@ const App = () => {
 
   return (
     <div className="App">
-      <Particles className="particles" params={particlesOptions} />
+      <Particles className="particles" params={PARTICLE_OPTIONS} />
       <Navigation onRouteChange={onRouteChange} signedIn={signedIn} />
       {route === 'home' ? (
         <div>
-          <Rank name={user.name} entries={user.entries} />
+          <Rank name={name} entries={entries} />
           <Logo />
           <ImageLinkForm onInputChange={onInputChange} onButtonClick={onImageDetect} />
           <FaceRecognition imageUrl={imageUrl} box={box} />
