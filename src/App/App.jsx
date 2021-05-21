@@ -16,7 +16,6 @@ const App = () => {
   const [state, setState] = useState({
     input: '',
     imageUrl: '',
-    box: {},
     route: 'signin',
     signedIn: false,
   });
@@ -29,7 +28,14 @@ const App = () => {
     joined: '',
   });
 
-  const { input, imageUrl, box, route, signedIn } = state;
+  const [box, setBox] = useState({
+    topRow: 0,
+    rightCol: 0,
+    bottomRow: 0,
+    leftCol: 0,
+  });
+
+  const { input, imageUrl, route, signedIn } = state;
   const { id, name, entries } = user;
 
   const loadUser = (data) => {
@@ -60,7 +66,7 @@ const App = () => {
   };
 
   const displayFaceBox = (box) => {
-    setState({ ...state, box });
+    setBox({ ...box });
   };
 
   const onImageDetect = () => {
