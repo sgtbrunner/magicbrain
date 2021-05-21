@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Particles from 'react-particles-js';
-import Navigation from '../components/Navigation/navigation.component';
-import Rank from '../components/Rank/rank.component';
-import Logo from '../components/Logo/logo.component';
+
+import Navigation from '../components/Navigation';
+import Rank from '../components/Rank';
+import Logo from '../components/Logo';
 import ImageLinkForm from '../components/ImageLinkForm';
 import FaceRecognition from '../components/FaceRecognition';
 import SignIn from '../components/SignIn';
@@ -22,29 +23,27 @@ const particlesOptions = {
   },
 };
 
-class App extends Component {
-  // STATE DECLARATION AND INITIALIZATION
-  constructor() {
-    super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      route: 'signin',
-      signedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: '',
-      },
-    };
-  }
+const App = () => {
+  const [state, setState] = useState({
+    input: '',
+    imageUrl: '',
+    box: {},
+    route: 'signin',
+    signedIn: false,
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      entries: 0,
+      joined: '',
+    },
+  });
 
-  // CALLED EVERYTIME A USER LOGS IN
-  loadUser = (data) => {
-    this.setState({
+  const { input, imageUrl, box, route, signedIn, user } = state;
+
+  const loadUser = (data) => {
+    setState({
+      ...state,
       user: {
         id: data.id,
         name: data.name,
@@ -55,14 +54,11 @@ class App extends Component {
     });
   };
 
-  // TRIGGERED EVERYTIME INPUT CHANGES
-  onInputChange = (event) => {
-    // ** Set input to user value
-    this.setState({ input: event.target.value });
+  const onInputChange = (event) => {
+    setState({ ...state, input: event.target.value });
   };
 
-  // Function used to calculate boundig box boundaries
-  calculateFaceLocation = (response) => {
+  const calculateFaceLocation = (response) => {
     const clarifaiFace = response.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
@@ -75,19 +71,17 @@ class App extends Component {
     };
   };
 
-  displayFaceBox = (box) => {
-    this.setState({ box });
+  const displayFaceBox = (box) => {
+    setState({ ...state, box });
   };
 
-  // TRIGGERED EVERYTIME DETECT BUTTON IS CLICKED
-  // app.models.predit is an asynchronous Clarifai syntax
-  onImageDetect = () => {
-    this.setState({ imageUrl: this.state.input });
+  const onImageDetect = () => {
+    setState({ imageUrl: input });
     fetch('https://shielded-reaches-78464.herokuapp.com/imageurl', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        input: this.state.input,
+        input: input,
       }),
     })
       .then((response) => response.json())
@@ -97,27 +91,25 @@ class App extends Component {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              id: this.state.user.id,
+              id: user.id,
             }),
           })
             .then((response) => response.json())
-            .then((count) => this.setState(Object.assign(this.state.user, { entries: count })))
+            .then((count) => setState({ ...state, user: { ...user, entries: count } }))
             .catch(console.log);
         }
-        this.displayFaceBox(this.calculateFaceLocation(response));
+        displayFaceBox(calculateFaceLocation(response));
       })
       .catch((err) => {
         window.alert('Please submit a valid image URL!');
       });
   };
 
-  onRouteChange = (route) => {
-    route === 'home' ? this.setState({ signedIn: true }) : this.setState({ signedIn: false });
-    this.setState({ route });
-    this.setState({ imageUrl: '' });
+  const onRouteChange = (route) => {
+    setState({ ...state, signedIn: route === 'home', route, imageUrl: '' });
   };
 
-  clearFields = () => {
+  const clearFields = () => {
     if (document.getElementById('name')) {
       document.getElementById('name').value = '';
     }
@@ -125,34 +117,24 @@ class App extends Component {
     document.getElementById('password').value = '';
   };
 
-  render() {
-    return (
-      <div className="App">
-        <Particles className="particles" params={particlesOptions} />
-        <Navigation onRouteChange={this.onRouteChange} signedIn={this.state.signedIn} />
-        {this.state.route === 'home' ? (
-          <div>
-            <Rank name={this.state.user.name} entries={this.state.user.entries} />
-            <Logo />
-            <ImageLinkForm onInputChange={this.onInputChange} onButtonClick={this.onImageDetect} />
-            <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} />
-          </div>
-        ) : this.state.route === 'signin' ? (
-          <SignIn
-            loadUser={this.loadUser}
-            onRouteChange={this.onRouteChange}
-            clearFields={this.clearFields}
-          />
-        ) : (
-          <Register
-            loadUser={this.loadUser}
-            onRouteChange={this.onRouteChange}
-            clearFields={this.clearFields}
-          />
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <Particles className="particles" params={particlesOptions} />
+      <Navigation onRouteChange={onRouteChange} signedIn={signedIn} />
+      {route === 'home' ? (
+        <div>
+          <Rank name={user.name} entries={user.entries} />
+          <Logo />
+          <ImageLinkForm onInputChange={onInputChange} onButtonClick={onImageDetect} />
+          <FaceRecognition imageUrl={imageUrl} box={box} />
+        </div>
+      ) : route === 'signin' ? (
+        <SignIn loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
+      ) : (
+        <Register loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
+      )}
+    </div>
+  );
+};
 
 export default App;
