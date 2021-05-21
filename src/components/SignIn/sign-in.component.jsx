@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { REACT_APP_API_ENDPOINT } from '../../utils/constants';
+
 const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
   const [signInData, setSignInData] = useState({
     email: '',
@@ -19,7 +21,7 @@ const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
 
   const onSignInSubmit = () => {
     if (email && password) {
-      fetch('https://shielded-reaches-78464.herokuapp.com/signin', {
+      fetch(`${REACT_APP_API_ENDPOINT}/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -31,7 +33,7 @@ const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
         .then((user) => {
           if (user.id) {
             loadUser(user);
-            onRouteChange('home'); //As Register is a class, it automatically receives props from App.js and (props) are accessed through this.props.
+            onRouteChange('home');
           } else {
             window.alert('Invalid user and/or password');
             clearFields();
