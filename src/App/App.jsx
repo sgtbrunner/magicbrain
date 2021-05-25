@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import Particles from 'react-particles-js';
 
 import Navigation from '../components/Navigation';
-import Rank from '../components/Rank';
-import Logo from '../components/Logo';
-import ImageLinkForm from '../components/ImageLinkForm';
-import FaceRecognition from '../components/FaceRecognition';
-import SignIn from '../components/SignIn';
-import Register from '../components/Register';
+import Home from '../pages/Home';
+import SignIn from '../pages/SignIn';
+import Register from '../pages/Register';
 import api from '../utils/api.utils';
 import PARTICLE_OPTIONS from '../utils/constants.utils';
 import 'tachyons';
@@ -83,7 +80,7 @@ const App = () => {
         displayFaceBox(calculateFaceLocation(response));
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
         window.alert('Unable to process your image. Please try a different image later!');
       });
   };
@@ -104,16 +101,20 @@ const App = () => {
     <div className="App">
       <Particles className="particles" params={PARTICLE_OPTIONS} />
       <Navigation onRouteChange={onRouteChange} signedIn={signedIn} />
-      {route === 'home' ? (
-        <div>
-          <Rank name={name} entries={entries} />
-          <Logo />
-          <ImageLinkForm onInputChange={onInputChange} onButtonClick={onImageDetect} />
-          <FaceRecognition imageUrl={imageUrl} box={box} />
-        </div>
-      ) : route === 'signin' ? (
+      {route === 'home' && (
+        <Home
+          name={name}
+          entries={entries}
+          imageUrl={imageUrl}
+          box={box}
+          onInputChange={onInputChange}
+          onImageDetect={onImageDetect}
+        />
+      )}
+      {route === 'signin' && (
         <SignIn loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
-      ) : (
+      )}
+      {route === 'register' && (
         <Register loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
       )}
     </div>
