@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { REACT_APP_API_ENDPOINT } from '../../utils/constants';
+import api from '../../utils/api.utils';
 
 const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
   const [signInData, setSignInData] = useState({
@@ -21,24 +21,15 @@ const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
 
   const onSignInSubmit = () => {
     if (email && password) {
-      fetch(`${REACT_APP_API_ENDPOINT}/signin`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      })
-        .then((response) => response.json())
-        .then((user) => {
-          if (user.id) {
-            loadUser(user);
-            onRouteChange('home');
-          } else {
-            window.alert('Invalid user and/or password');
-            clearFields();
-          }
-        });
+      api.signInUser({ email, password }).then((user) => {
+        if (user?.id) {
+          loadUser(user);
+          onRouteChange('home');
+        } else {
+          window.alert('Invalid user and/or password');
+          clearFields();
+        }
+      });
     } else {
       window.alert('Email and Password fields should be filled in');
     }

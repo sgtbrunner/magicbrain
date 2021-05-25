@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { REACT_APP_API_ENDPOINT } from '../../utils/constants';
+import api from '../../utils/api.utils';
 
 const Register = ({ loadUser, onRouteChange, clearFields }) => {
   const [registrationData, setRegisterData] = useState({
@@ -25,26 +25,16 @@ const Register = ({ loadUser, onRouteChange, clearFields }) => {
 
   const onRegisterSubmit = () => {
     if (name && email && password) {
-      fetch(`${REACT_APP_API_ENDPOINT}/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      })
-        .then((response) => response.json())
-        .then((user) => {
-          if (user.id) {
-            loadUser(user);
-            onRouteChange('home');
-            window.alert(`User ${user.name} succesfully registered!`);
-          } else {
-            window.alert(user);
-            clearFields();
-          }
-        });
+      api.registerUser({ name, email, password }).then((user) => {
+        if (user?.id) {
+          loadUser(user);
+          onRouteChange('home');
+          window.alert(`User ${user.name} succesfully registered!`);
+        } else {
+          window.alert(user);
+          clearFields();
+        }
+      });
     } else {
       window.alert('Name, Email and Password fields should be filled in!');
     }

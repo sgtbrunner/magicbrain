@@ -8,7 +8,8 @@ import ImageLinkForm from '../components/ImageLinkForm';
 import FaceRecognition from '../components/FaceRecognition';
 import SignIn from '../components/SignIn';
 import Register from '../components/Register';
-import { PARTICLE_OPTIONS, REACT_APP_API_ENDPOINT } from '../utils/constants';
+import api from '../utils/api.utils';
+import PARTICLE_OPTIONS from '../utils/constants.utils';
 import 'tachyons';
 import './App.css';
 
@@ -71,31 +72,19 @@ const App = () => {
 
   const onImageDetect = () => {
     setState({ ...state, imageUrl: input });
-    fetch(`${REACT_APP_API_ENDPOINT}/imageurl`, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        input: input,
-      }),
-    })
-      .then((response) => response.json())
+    api
+      .getImageBoundary({ input })
       .then((response) => {
         if (response.outputs) {
-          fetch(`${REACT_APP_API_ENDPOINT}/image`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id,
-            }),
-          })
-            .then((response) => response.json())
-            .then((count) => setUser({ ...user, entries: Number(count) }))
-            .catch(console.log);
+          api
+            .updateImageCount({ id })
+            .then((count) => setUser({ ...user, entries: Number(count) }));
         }
         displayFaceBox(calculateFaceLocation(response));
       })
       .catch((err) => {
-        window.alert('Please submit a valid image URL!');
+        console.log(err);
+        window.alert('Unable to process your image. Please try a different image later!');
       });
   };
 

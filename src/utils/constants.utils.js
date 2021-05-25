@@ -1,4 +1,4 @@
-export const PARTICLE_OPTIONS = {
+const PARTICLE_OPTIONS = {
   particles: {
     number: {
       value: 50,
@@ -10,4 +10,4 @@ export const PARTICLE_OPTIONS = {
   },
 };
 
-export const { REACT_APP_API_ENDPOINT } = process.env;
+export default PARTICLE_OPTIONS;
