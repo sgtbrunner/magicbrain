@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './navigation.styles.css';
+import './header.styles.css';
 
-const Navigation = ({ onRouteChange, signedIn }) =>
+const Header = ({ onRouteChange, signedIn }) =>
   signedIn ? (
-    <nav className="navigation-bar">
+    <nav className="header">
       <button
         className="f4 link dim black underline pa4 pointer noselect"
         onClick={() => onRouteChange('signin')}
@@ -15,7 +15,7 @@ const Navigation = ({ onRouteChange, signedIn }) =>
       </button>
     </nav>
   ) : (
-    <nav className="navigation-bar">
+    <nav className="header">
       <button
         className="f4 link dim black underline pa3 pointer noselect"
         onClick={() => onRouteChange('signin')}
@@ -33,9 +33,9 @@ const Navigation = ({ onRouteChange, signedIn }) =>
     </nav>
   );
 
-Navigation.propTypes = {
+Header.propTypes = {
   onRouteChange: PropTypes.func.isRequired,
   signedIn: PropTypes.bool.isRequired,
 };
 
-export default Navigation;
+export default Header;
