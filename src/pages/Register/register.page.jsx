@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
 
-const Register = ({ loadUser, onRouteChange, clearFields }) => {
+const Register = ({ loadUser, clearFields }) => {
   const [registrationData, setRegisterData] = useState({
     name: '',
     email: '',
@@ -28,7 +28,7 @@ const Register = ({ loadUser, onRouteChange, clearFields }) => {
       api.registerUser({ name, email, password }).then((user) => {
         if (user?.id) {
           loadUser(user);
-          onRouteChange('home');
+          localStorage.setItem('user', JSON.stringify(user));
           window.alert(`User ${user.name} succesfully registered!`);
         } else {
           window.alert(user);
@@ -109,7 +109,6 @@ const Register = ({ loadUser, onRouteChange, clearFields }) => {
 
 Register.propTypes = {
   loadUser: PropTypes.func.isRequired,
-  onRouteChange: PropTypes.func.isRequired,
   clearFields: PropTypes.func.isRequired,
 };
 
