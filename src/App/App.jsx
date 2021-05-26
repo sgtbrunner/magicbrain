@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import Particles from 'react-particles-js';
 
 import Header from '../components/Header';
@@ -9,23 +9,25 @@ import Register from '../pages/Register';
 import SignIn from '../pages/SignIn';
 import api from '../utils/api.utils';
 import PARTICLE_OPTIONS from '../utils/constants.utils';
+import { getUserFromLocalStorage } from '../utils/functions.utils';
 import 'tachyons';
 import './App.css';
+
+const INITIAL_USER_DATA = {
+  id: '',
+  name: '',
+  email: '',
+  entries: 0,
+  joined: '',
+};
 
 const App = () => {
   const [state, setState] = useState({
     input: '',
     imageUrl: '',
-    signedIn: false,
   });
 
-  const [user, setUser] = useState({
-    id: '',
-    name: '',
-    email: '',
-    entries: 0,
-    joined: '',
-  });
+  const [user, setUser] = useState(INITIAL_USER_DATA);
 
   const [box, setBox] = useState({
     topRow: 0,
@@ -34,8 +36,18 @@ const App = () => {
     leftCol: 0,
   });
 
-  const { input, imageUrl, signedIn } = state;
+  const history = useHistory();
+  const { input, imageUrl } = state;
   const { id, name, entries } = user;
+
+  useEffect(() => {
+    const loggedInUser = getUserFromLocalStorage();
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+      history.push('/home');
+    }
+  }, [history]);
 
   const loadUser = (data) => {
     setUser({
@@ -45,7 +57,10 @@ const App = () => {
       entries: Number(data.entries),
       joined: data.joined,
     });
+    history.push('/home');
   };
+
+  const clearUser = () => setUser(INITIAL_USER_DATA);
 
   const onInputChange = (event) => {
     setState({ ...state, input: event.target.value });
@@ -86,10 +101,6 @@ const App = () => {
       });
   };
 
-  const onRouteChange = (route) => {
-    setState({ ...state, signedIn: route === 'home', route, imageUrl: '' });
-  };
-
   const clearFields = () => {
     if (document.getElementById('name')) {
       document.getElementById('name').value = '';
@@ -101,22 +112,18 @@ const App = () => {
   return (
     <div className="App">
       <Particles className="particles" params={PARTICLE_OPTIONS} />
-      <Header onRouteChange={onRouteChange} signedIn={signedIn} />
+      <Header isUserSignedIn={!!user.id} clearUser={clearUser} />
       <Switch>
         <Route exact path="/">
-          <Redirect to="/signin" />
+          <Redirect to={user.id ? '/home' : '/signin'} />
         </Route>
         <Route
           path="/signin"
-          render={() => (
-            <SignIn loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
-          )}
+          render={() => <SignIn loadUser={loadUser} clearFields={clearFields} />}
         />
         <Route
           path="/register"
-          render={() => (
-            <Register loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
-          )}
+          render={() => <Register loadUser={loadUser} clearFields={clearFields} />}
         />
         <Route
           path="/home"

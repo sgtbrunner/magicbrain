@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
 
-const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
+const SignIn = ({ loadUser, clearFields }) => {
   const [signInData, setSignInData] = useState({
     email: '',
     password: '',
@@ -24,7 +24,7 @@ const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
       api.signInUser({ email, password }).then((user) => {
         if (user?.id) {
           loadUser(user);
-          onRouteChange('home');
+          localStorage.setItem('user', JSON.stringify(user));
         } else {
           window.alert('Invalid user and/or password');
           clearFields();
@@ -84,7 +84,7 @@ const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
             />
           </div>
           <div className="lh-copy mt3">
-            <p className="f5 link dim black db pointer" onClick={() => onRouteChange('register')}>
+            <p className="f5 link dim black db pointer" onClick={() => null}>
               Register now, it's free!
             </p>
           </div>
@@ -96,7 +96,6 @@ const SignIn = ({ loadUser, onRouteChange, clearFields }) => {
 
 SignIn.propTypes = {
   loadUser: PropTypes.func.isRequired,
-  onRouteChange: PropTypes.func.isRequired,
   clearFields: PropTypes.func.isRequired,
 };
 

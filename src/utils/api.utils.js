@@ -1,12 +1,12 @@
 const { REACT_APP_API_ENDPOINT } = process.env;
 
-const fetchServer = async ({
+const fetchServer = ({
   path,
   method = 'POST',
   headers = { 'Content-Type': 'application/json' },
   body,
 }) =>
-  await fetch(`${REACT_APP_API_ENDPOINT}${path}`, {
+  fetch(`${REACT_APP_API_ENDPOINT}${path}`, {
     method,
     headers,
     body: JSON.stringify({ ...body }),
