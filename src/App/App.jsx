@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Particles from 'react-particles-js';
 
-import Navigation from '../components/Navigation';
+import Header from '../components/Header';
 import Home from '../pages/Home';
-import SignIn from '../pages/SignIn';
+import NotFound from '../components/NotFound';
 import Register from '../pages/Register';
+import SignIn from '../pages/SignIn';
 import api from '../utils/api.utils';
 import PARTICLE_OPTIONS from '../utils/constants.utils';
 import 'tachyons';
@@ -14,7 +16,6 @@ const App = () => {
   const [state, setState] = useState({
     input: '',
     imageUrl: '',
-    route: 'signin',
     signedIn: false,
   });
 
@@ -33,7 +34,7 @@ const App = () => {
     leftCol: 0,
   });
 
-  const { input, imageUrl, route, signedIn } = state;
+  const { input, imageUrl, signedIn } = state;
   const { id, name, entries } = user;
 
   const loadUser = (data) => {
@@ -100,23 +101,38 @@ const App = () => {
   return (
     <div className="App">
       <Particles className="particles" params={PARTICLE_OPTIONS} />
-      <Navigation onRouteChange={onRouteChange} signedIn={signedIn} />
-      {route === 'home' && (
-        <Home
-          name={name}
-          entries={entries}
-          imageUrl={imageUrl}
-          box={box}
-          onInputChange={onInputChange}
-          onImageDetect={onImageDetect}
+      <Header onRouteChange={onRouteChange} signedIn={signedIn} />
+      <Switch>
+        <Route exact path="/">
+          <Redirect to="/signin" />
+        </Route>
+        <Route
+          path="/signin"
+          render={() => (
+            <SignIn loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
+          )}
         />
-      )}
-      {route === 'signin' && (
-        <SignIn loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
-      )}
-      {route === 'register' && (
-        <Register loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
-      )}
+        <Route
+          path="/register"
+          render={() => (
+            <Register loadUser={loadUser} onRouteChange={onRouteChange} clearFields={clearFields} />
+          )}
+        />
+        <Route
+          path="/home"
+          render={() => (
+            <Home
+              name={name}
+              entries={entries}
+              imageUrl={imageUrl}
+              box={box}
+              onInputChange={onInputChange}
+              onImageDetect={onImageDetect}
+            />
+          )}
+        />
+        <Route component={NotFound} />
+      </Switch>
     </div>
   );
 };
