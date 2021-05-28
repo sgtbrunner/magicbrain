@@ -1,27 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
 
 const Register = ({ loadUser, clearFields }) => {
-  const [registrationData, setRegisterData] = useState({
-    name: '',
-    email: '',
-    password: '',
+  const [name, setName] = useState({
+    value: '',
+    isValid: false,
+    showError: false,
   });
-  const { name, email, password } = registrationData;
 
-  const onNameChange = (event) => {
-    setRegisterData({ ...registrationData, name: event.target.value });
+  const [email, setEmail] = useState({
+    value: '',
+    isValid: false,
+    showError: false,
+  });
+
+  const [password, setPassword] = useState({
+    value: '',
+    isValid: false,
+    showError: false,
+  });
+
+  const getInput = {
+    name,
+    email,
+    password,
   };
 
-  const onEmailChange = (event) => {
-    setRegisterData({ ...registrationData, email: event.target.value.toLowerCase() });
+  const getSetInput = {
+    name: setName,
+    email: setEmail,
+    password: setPassword,
   };
 
-  const onPasswordChange = (event) => {
-    setRegisterData({ ...registrationData, password: event.target.value });
+  const emailInputField = useRef();
+  const passwordInputField = useRef();
+  const isValidForm = email.isValid && password.isValid;
+
+  const isFieldValid = (fieldName, value) => {
+    const validators = {
+      name: value.length >= 3,
+      email: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(String(value).toLowerCase()),
+      password: value.length >= 6,
+    };
+
+    return validators[fieldName];
   };
+
+  const getErrorMessage = (fieldName) => {
+    const messages = {
+      name: 'Name cannot be empty',
+      email: 'Please enter a valid email address.',
+      password: 'Your password must be at least 6 characters long.',
+    };
+
+    return messages[fieldName];
+  };
+
+  const onFieldChange = (fieldName, event) => {
+    const isValid = isFieldValid(fieldName, event.target.value);
+    const error = !isValid && getErrorMessage(fieldName);
+    getSetInput[fieldName]({ value: event.target.value, isValid, error });
+  };
+
+  const validateInput = (field) => {
+    const input = getInput[field];
+    getSetInput[field]((prevState) => ({ ...prevState, showError: !input.isValid }));
+  };
+
+  const errorClass = (showError) => (showError ? 'b--red bw2' : '');
 
   const onRegisterSubmit = () => {
     if (name && email && password) {
@@ -40,70 +88,64 @@ const Register = ({ loadUser, clearFields }) => {
     }
   };
 
-  const handleKeyPress = (event) => {
-    return event.key === 'Enter' ? onRegisterSubmit() : null;
-  };
+  // const handleKeyPress = (event) => {
+  //   return event.key === 'Enter' ? onRegisterSubmit() : null;
+  // };
+  console.log({ name, email, password });
+  console.log(passwordInputField);
 
   return (
-    <article
+    <form
       className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center form smaller"
-      onKeyPress={handleKeyPress}
+      onSubmit={onRegisterSubmit}
     >
       <main className="pa4 black-80">
-        <div className="measure">
-          <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-            <legend className="f2 fw6 ph0 mh0 noselect">Register</legend>
-            <div className="mt3">
-              <label className="db fw6 lh-copy f6" htmlFor="email-address">
-                Name
-              </label>
-              <input
-                className="pa2 input-reset ba bg-white w-100"
-                type="text"
-                name="name"
-                id="name"
-                onChange={onNameChange}
-                required
-              />
-            </div>
-            <div className="mt3">
-              <label className="db fw6 lh-copy f6" htmlFor="email-address">
-                Email
-              </label>
-              <input
-                className="pa2 input-reset ba bg-white w-100"
-                type="email"
-                name="email-address"
-                id="email-address"
-                onChange={onEmailChange}
-                required
-              />
-            </div>
-            <div className="mv3">
-              <label className="db fw6 lh-copy f6" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="pa2 input-reset ba bg-white w-100"
-                type="password"
-                name="password"
-                id="password"
-                onChange={onPasswordChange}
-                required
-              />
-            </div>
-          </fieldset>
-          <div className="">
+        <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
+          <h2 className="f2 fw6 ph0 ma0 noselect">Register</h2>
+          <label className="db fw6 lh-copy f6 mv3" htmlFor="name">
+            Name
             <input
-              className="b ph3 pv2 input-reset ba b--black bg-lightest-blue grow pointer f6 dib"
-              type="submit"
-              value="Register"
-              onClick={onRegisterSubmit}
+              className="pa2 input-reset ba bg-white w-100"
+              type="text"
+              name="name"
+              id="name"
+              onChange={(event) => onFieldChange('name', event)}
             />
-          </div>
-        </div>
+          </label>
+          <label className="db fw6 lh-copy f6 mv3" htmlFor="email">
+            Email
+            <input
+              className={`pa2 input-reset ba bg-white w-100 ${errorClass(email.showError)}`}
+              type="email"
+              name="email"
+              id="email"
+              ref={emailInputField}
+              onChange={(event) => onFieldChange('email', event)}
+              onBlur={() => validateInput('email')}
+            />
+          </label>
+          <label className="db fw6 lh-copy f6 mv3" htmlFor="password">
+            Password
+            <input
+              className="pa2 input-reset ba bg-white w-100"
+              type="password"
+              name="password"
+              id="password"
+              ref={passwordInputField}
+              onChange={(event) => onFieldChange('password', event)}
+              required
+            />
+          </label>
+        </fieldset>
+        <button
+          className="b ph3 pv2 input-reset ba b--black bg-lightest-blue grow f6 dib"
+          type="submit"
+          disabled={!isValidForm}
+        >
+          Register
+        </button>
       </main>
-    </article>
+    </form>
   );
 };
 
