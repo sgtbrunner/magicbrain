@@ -1,25 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
+import {
+  INPUT_INITIAL_STATE,
+  NAME_ERROR_MESSAGE,
+  EMAIL_ERROR_MESSAGE,
+  PASSWORD_ERROR_MESSAGE,
+  EMAIL_REGEX_KEY,
+} from '../../utils/constants.utils';
 
-const Register = ({ loadUser, clearFields }) => {
-  const [name, setName] = useState({
-    value: '',
-    isValid: false,
-    showError: false,
-  });
-
+const Register = ({ loadUser }) => {
+  const [name, setName] = useState({ ...INPUT_INITIAL_STATE, errorText: NAME_ERROR_MESSAGE });
   const [email, setEmail] = useState({
-    value: '',
-    isValid: false,
-    showError: false,
+    ...INPUT_INITIAL_STATE,
+    errorText: EMAIL_ERROR_MESSAGE,
   });
-
   const [password, setPassword] = useState({
-    value: '',
-    isValid: false,
-    showError: false,
+    ...INPUT_INITIAL_STATE,
+    errorText: PASSWORD_ERROR_MESSAGE,
   });
 
   const getInput = {
@@ -34,42 +33,31 @@ const Register = ({ loadUser, clearFields }) => {
     password: setPassword,
   };
 
-  const emailInputField = useRef();
-  const passwordInputField = useRef();
-  const isValidForm = email.isValid && password.isValid;
+  const isValidForm = name.isValid && email.isValid && password.isValid;
 
   const isFieldValid = (fieldName, value) => {
     const validators = {
-      name: value.length >= 3,
-      email: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(String(value).toLowerCase()),
+      name: value.length > 0,
+      email: EMAIL_REGEX_KEY.test(String(value).toLowerCase()),
       password: value.length >= 6,
     };
 
     return validators[fieldName];
   };
 
-  const getErrorMessage = (fieldName) => {
-    const messages = {
-      name: 'Name cannot be empty',
-      email: 'Please enter a valid email address.',
-      password: 'Your password must be at least 6 characters long.',
-    };
-
-    return messages[fieldName];
-  };
-
   const onFieldChange = (fieldName, event) => {
+    const input = getInput[fieldName];
     const isValid = isFieldValid(fieldName, event.target.value);
-    const error = !isValid && getErrorMessage(fieldName);
-    getSetInput[fieldName]({ value: event.target.value, isValid, error });
+    getSetInput[fieldName]({ ...input, value: event.target.value, isValid });
   };
 
-  const validateInput = (field) => {
-    const input = getInput[field];
-    getSetInput[field]((prevState) => ({ ...prevState, showError: !input.isValid }));
+  const validateInput = (fieldName) => {
+    const input = getInput[fieldName];
+    getSetInput[fieldName]({ ...input, showError: !input.isValid });
   };
 
-  const errorClass = (showError) => (showError ? 'b--red bw2' : '');
+  const inputErrorClass = (showError) => (showError ? 'b--red' : '');
+  const disabledButtonClass = (isValidForm) => (isValidForm ? 'b bg-lightest-blue grow' : '');
 
   const onRegisterSubmit = () => {
     if (name && email && password) {
@@ -80,7 +68,6 @@ const Register = ({ loadUser, clearFields }) => {
           window.alert(`User ${user.name} succesfully registered!`);
         } else {
           window.alert(user);
-          clearFields();
         }
       });
     } else {
@@ -92,53 +79,63 @@ const Register = ({ loadUser, clearFields }) => {
   //   return event.key === 'Enter' ? onRegisterSubmit() : null;
   // };
   console.log({ name, email, password });
-  console.log(passwordInputField);
+  console.log({ isValidForm });
 
   return (
     <form
-      className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center form smaller"
+      className="br3 ba b--black-10 mv4 w-100 w-50-m mw6 shadow-5 center form smaller"
       onSubmit={onRegisterSubmit}
     >
       <main className="pa4 black-80">
         <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
-          <h2 className="f2 fw6 ph0 ma0 noselect">Register</h2>
-          <label className="db fw6 lh-copy f6 mv3" htmlFor="name">
-            Name
-            <input
-              className="pa2 input-reset ba bg-white w-100"
-              type="text"
-              name="name"
-              id="name"
-              onChange={(event) => onFieldChange('name', event)}
-            />
-          </label>
-          <label className="db fw6 lh-copy f6 mv3" htmlFor="email">
-            Email
-            <input
-              className={`pa2 input-reset ba bg-white w-100 ${errorClass(email.showError)}`}
-              type="email"
-              name="email"
-              id="email"
-              ref={emailInputField}
-              onChange={(event) => onFieldChange('email', event)}
-              onBlur={() => validateInput('email')}
-            />
-          </label>
-          <label className="db fw6 lh-copy f6 mv3" htmlFor="password">
-            Password
-            <input
-              className="pa2 input-reset ba bg-white w-100"
-              type="password"
-              name="password"
-              id="password"
-              ref={passwordInputField}
-              onChange={(event) => onFieldChange('password', event)}
-              required
-            />
-          </label>
+          <h2 className="f2 ph0 ma0 noselect">Register</h2>
+          <div style={{ height: 80 }}>
+            <label className="db fw6 lh-copy mv2" htmlFor="name">
+              Name
+              <input
+                className={`pa2 input-reset ba bg-white w-100 ${inputErrorClass(name.showError)}`}
+                type="text"
+                name="name"
+                id="name"
+                onChange={(event) => onFieldChange('name', event)}
+                onBlur={() => validateInput('name')}
+              />
+              {name.showError && <p className="red f6 mt1">{name.errorText}</p>}
+            </label>
+          </div>
+          <div style={{ height: 80 }}>
+            <label className="db fw6 lh-copy mv2" htmlFor="email">
+              Email
+              <input
+                className={`pa2 input-reset ba bg-white w-100 ${inputErrorClass(email.showError)}`}
+                type="email"
+                name="email"
+                id="email"
+                onChange={(event) => onFieldChange('email', event)}
+                onBlur={() => validateInput('email')}
+              />
+              {email.showError && <p className="red f6 mt1">{email.errorText}</p>}
+            </label>
+          </div>
+          <div style={{ height: 80, cursor: '' }}>
+            <label className="db fw6 lh-copy mv2" htmlFor="password">
+              Password
+              <input
+                className={`pa2 input-reset ba bg-white w-100 ${inputErrorClass(
+                  password.showError
+                )}`}
+                type="password"
+                name="password"
+                id="password"
+                onChange={(event) => onFieldChange('password', event)}
+                onBlur={() => validateInput('password')}
+              />
+              {password.showError && <p className="red f6 mt1">{password.errorText}</p>}
+            </label>
+          </div>
         </fieldset>
         <button
-          className="b ph3 pv2 input-reset ba b--black bg-lightest-blue grow f6 dib"
+          className={`ph3 pv2 ba b--black f6 dib ${disabledButtonClass(isValidForm)}`}
           type="submit"
           disabled={!isValidForm}
         >
@@ -151,7 +148,6 @@ const Register = ({ loadUser, clearFields }) => {
 
 Register.propTypes = {
   loadUser: PropTypes.func.isRequired,
-  clearFields: PropTypes.func.isRequired,
 };
 
 export default Register;

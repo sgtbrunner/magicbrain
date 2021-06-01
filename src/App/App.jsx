@@ -8,7 +8,7 @@ import NotFound from '../components/NotFound';
 import Register from '../pages/Register';
 import SignIn from '../pages/SignIn';
 import api from '../utils/api.utils';
-import PARTICLE_OPTIONS from '../utils/constants.utils';
+import { PARTICLE_OPTIONS } from '../utils/constants.utils';
 import { getUserFromLocalStorage } from '../utils/functions.utils';
 import 'tachyons';
 import './App.css';
