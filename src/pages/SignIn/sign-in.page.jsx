@@ -1,23 +1,66 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
+import {
+  INPUT_INITIAL_STATE,
+  EMAIL_ERROR_MESSAGE,
+  PASSWORD_ERROR_MESSAGE,
+  EMAIL_REGEX_KEY,
+} from '../../utils/constants.utils';
 
-const SignIn = ({ loadUser, clearFields }) => {
-  const [signInData, setSignInData] = useState({
-    email: '',
-    password: '',
+const SignIn = ({ loadUser }) => {
+  const history = useHistory();
+
+  const [email, setEmail] = useState({
+    ...INPUT_INITIAL_STATE,
+    errorText: EMAIL_ERROR_MESSAGE,
+  });
+  const [password, setPassword] = useState({
+    ...INPUT_INITIAL_STATE,
+    errorText: PASSWORD_ERROR_MESSAGE,
   });
 
-  const { email, password } = signInData;
-
-  const onEmailChange = (event) => {
-    setSignInData({ ...signInData, email: event.target.value.toLowerCase() });
+  const getInput = {
+    email,
+    password,
   };
 
-  const onPasswordChange = (event) => {
-    setSignInData({ ...signInData, password: event.target.value });
+  const getSetInput = {
+    email: setEmail,
+    password: setPassword,
   };
+
+  const isValidForm = email.isValid && password.isValid;
+
+  const isFieldValid = (fieldName, value) => {
+    const validators = {
+      email: EMAIL_REGEX_KEY.test(String(value).toLowerCase()),
+      password: value.length >= 6,
+    };
+
+    return validators[fieldName];
+  };
+
+  const onFieldChange = (fieldName, event) => {
+    const input = getInput[fieldName];
+    const isValid = isFieldValid(fieldName, event.target.value);
+    getSetInput[fieldName]({
+      ...input,
+      value: event.target.value,
+      isValid,
+      showError: input.showError && !isValid,
+    });
+  };
+
+  const validateInput = (fieldName) => {
+    const input = getInput[fieldName];
+    getSetInput[fieldName]({ ...input, showError: !input.isValid });
+  };
+
+  const inputErrorClass = (showError) => (showError ? 'b--red' : '');
+  const disabledButtonClass = (isValidForm) => (isValidForm ? 'b bg-lightest-blue grow' : '');
 
   const onSignInSubmit = () => {
     if (email && password) {
@@ -27,7 +70,6 @@ const SignIn = ({ loadUser, clearFields }) => {
           localStorage.setItem('user', JSON.stringify(user));
         } else {
           window.alert('Invalid user and/or password');
-          clearFields();
         }
       });
     } else {
@@ -35,68 +77,76 @@ const SignIn = ({ loadUser, clearFields }) => {
     }
   };
 
-  const handleKeyPress = (event) => {
-    return event.key === 'Enter' ? onSignInSubmit() : null;
-  };
+  // const handleKeyPress = (event) => {
+  //   return event.key === 'Enter' ? onSignInSubmit() : null;
+  // };
 
   return (
-    <article
-      className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center form smaller"
-      onKeyPress={handleKeyPress}
+    <form
+      className="br3 ba b--black-10 mv4 w-100 w-50-m mw6 shadow-5 center form smaller"
+      onSubmit={onSignInSubmit}
     >
       <main className="pa4 black-80">
         <div className="measure">
           <fieldset id="sign_in" className="ba b--transparent ph0 mh0">
-            <legend className="f2 fw6 ph0 mh0 noselect">Sign In</legend>
-            <div className="mt3">
-              <label className="db fw6 lh-copy f6" htmlFor="email-address">
+            <h2 className="f2 ph0 ma0 noselect">Sign In</h2>
+            <div>
+              <label className="db fw6 lh-copy mv2" htmlFor="email">
                 Email
+                <input
+                  className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(email.showError)}`}
+                  type="email"
+                  name="email"
+                  id="email"
+                  onChange={(event) => onFieldChange('email', event)}
+                  onBlur={() => validateInput('email')}
+                />
+                {email.showError && (
+                  <p className="red f6 absolute mv0 right-0 left-0">{email.errorText}</p>
+                )}
               </label>
-              <input
-                className="pa2 input-reset ba bg-white w-100"
-                type="email"
-                name="email-address"
-                id="email-address"
-                onChange={onEmailChange}
-                required
-              />
             </div>
-            <div className="mv3">
-              <label className="db fw6 lh-copy f6" htmlFor="password">
+            <div className="mt4">
+              <label className="db fw6 lh-copy" htmlFor="password">
                 Password
+                <input
+                  className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(password.showError)}`}
+                  type="password"
+                  name="password"
+                  id="password"
+                  onChange={(event) => onFieldChange('password', event)}
+                  onBlur={() => validateInput('password')}
+                />
+                {password.showError && (
+                  <p className="red f6 absolute mv0 right-0 left-0">{password.errorText}</p>
+                )}
               </label>
-              <input
-                className="pa2 input-reset ba bg-white w-100"
-                type="password"
-                name="password"
-                id="password"
-                onChange={onPasswordChange}
-                required
-              />
             </div>
           </fieldset>
-          <div className="">
-            <input
-              className="b ph3 pv2 input-reset ba b--black bg-lightest-blue grow pointer f6 dib"
+          <div className="flex flex-column items-center">
+            <button
+              className={`ph3 pv2 mt4 ba b--black f6 dib ${disabledButtonClass(isValidForm)}`}
               type="submit"
-              value="Sign in"
-              onClick={onSignInSubmit}
-            />
-          </div>
-          <div className="lh-copy mt3">
-            <p className="f5 link dim black db pointer" onClick={() => null}>
+              disabled={!isValidForm}
+            >
+              Sign In
+            </button>
+            <button
+              className="f5 dim black lh-copy mt3 b--none bg-transparent"
+              type="button"
+              onClick={() => history.push('/register')}
+            >
               Register now, it's free!
-            </p>
+            </button>
           </div>
         </div>
       </main>
-    </article>
+    </form>
   );
 };
 
 SignIn.propTypes = {
   loadUser: PropTypes.func.isRequired,
-  clearFields: PropTypes.func.isRequired,
 };
 
 export default SignIn;
