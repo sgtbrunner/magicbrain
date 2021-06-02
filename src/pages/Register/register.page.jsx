@@ -10,6 +10,8 @@ import {
   EMAIL_REGEX_KEY,
 } from '../../utils/constants.utils';
 
+import FormButton from '../../components/Buttons/FormButton';
+
 const Register = ({ loadUser }) => {
   const [name, setName] = useState({ ...INPUT_INITIAL_STATE, errorText: NAME_ERROR_MESSAGE });
   const [email, setEmail] = useState({
@@ -61,8 +63,7 @@ const Register = ({ loadUser }) => {
     getSetInput[fieldName]({ ...input, showError: !input.isValid });
   };
 
-  const inputErrorClass = (showError) => (showError ? 'b--red' : '');
-  const disabledButtonClass = (isValidForm) => (isValidForm ? 'b bg-lightest-blue grow' : '');
+  const getInputErrorClass = (showError) => (showError ? 'b--red' : '');
 
   const onRegisterSubmit = () => {
     if (name && email && password) {
@@ -96,7 +97,7 @@ const Register = ({ loadUser }) => {
             <label className="db fw6 lh-copy mv2" htmlFor="name">
               Name
               <input
-                className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(name.showError)}`}
+                className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(name.showError)}`}
                 type="text"
                 name="name"
                 id="name"
@@ -112,7 +113,7 @@ const Register = ({ loadUser }) => {
             <label className="db fw6 lh-copy mv2" htmlFor="email">
               Email
               <input
-                className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(email.showError)}`}
+                className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(email.showError)}`}
                 type="email"
                 name="email"
                 id="email"
@@ -128,7 +129,7 @@ const Register = ({ loadUser }) => {
             <label className="db fw6 lh-copy" htmlFor="password">
               Password
               <input
-                className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(password.showError)}`}
+                className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(password.showError)}`}
                 type="password"
                 name="password"
                 id="password"
@@ -141,13 +142,9 @@ const Register = ({ loadUser }) => {
             </label>
           </div>
         </fieldset>
-        <button
-          className={`ph3 pv2 mt4 ba b--black f6 dib ${disabledButtonClass(isValidForm)}`}
-          type="submit"
-          disabled={!isValidForm}
-        >
+        <FormButton isValidForm={isValidForm} disabled={!isValidForm}>
           Register
-        </button>
+        </FormButton>
       </main>
     </form>
   );
