@@ -16,24 +16,20 @@ const Header = ({ isUserSignedIn, clearUser }) => {
   return (
     <nav className="header">
       {isUserSignedIn ? (
-        <button
-          className="f4 link dim black underline pa3 pointer noselect"
-          onClick={logout}
-          type="button"
-        >
+        <button className="f4 link dim black pa3 pointer" onClick={logout} type="button">
           Sign Out
         </button>
       ) : (
         <div>
           <button
-            className="f4 link dim black underline pa3 pointer noselect"
+            className="f4 link dim black pa3 pointer"
             onClick={() => history.push('/signin')}
             type="button"
           >
             Sign In
           </button>
           <button
-            className="f4 link dim black underline pa3 pointer noselect"
+            className="f4 link dim black pa3 pointer"
             onClick={() => history.push('/register')}
             type="button"
           >
