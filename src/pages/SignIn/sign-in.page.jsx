@@ -132,7 +132,7 @@ const SignIn = ({ loadUser }) => {
               Sign In
             </button>
             <button
-              className="f5 dim black lh-copy mt3 b--none bg-transparent"
+              className="f5 dim black lh-copy mt3 link b--none bg-transparent"
               type="button"
               onClick={() => history.push('/register')}
             >
