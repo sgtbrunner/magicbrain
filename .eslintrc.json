@@ -43,6 +43,7 @@
     "react/destructuring-assignment": "off",
     "react/forbid-prop-types": "off",
     "react/jsx-filename-extension": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unescaped-entities": "off"
   }
 }

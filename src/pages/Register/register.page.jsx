@@ -83,8 +83,6 @@ const Register = ({ loadUser }) => {
   // const handleKeyPress = (event) => {
   //   return event.key === 'Enter' ? onRegisterSubmit() : null;
   // };
-  console.log({ name, email, password });
-  console.log({ isValidForm });
 
   return (
     <form
