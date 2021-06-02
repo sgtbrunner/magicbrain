@@ -10,6 +10,8 @@ import {
   EMAIL_REGEX_KEY,
 } from '../../utils/constants.utils';
 
+import FormButton from '../../components/Buttons/FormButton';
+
 const SignIn = ({ loadUser }) => {
   const history = useHistory();
 
@@ -59,8 +61,7 @@ const SignIn = ({ loadUser }) => {
     getSetInput[fieldName]({ ...input, showError: !input.isValid });
   };
 
-  const inputErrorClass = (showError) => (showError ? 'b--red' : '');
-  const disabledButtonClass = (isValidForm) => (isValidForm ? 'b bg-lightest-blue grow' : '');
+  const getInputErrorClass = (showError) => (showError ? 'b--red' : '');
 
   const onSignInSubmit = () => {
     if (email && password) {
@@ -94,7 +95,7 @@ const SignIn = ({ loadUser }) => {
               <label className="db fw6 lh-copy mv2" htmlFor="email">
                 Email
                 <input
-                  className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(email.showError)}`}
+                  className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(email.showError)}`}
                   type="email"
                   name="email"
                   id="email"
@@ -110,7 +111,7 @@ const SignIn = ({ loadUser }) => {
               <label className="db fw6 lh-copy" htmlFor="password">
                 Password
                 <input
-                  className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(password.showError)}`}
+                  className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(password.showError)}`}
                   type="password"
                   name="password"
                   id="password"
@@ -124,13 +125,9 @@ const SignIn = ({ loadUser }) => {
             </div>
           </fieldset>
           <div className="flex flex-column items-center">
-            <button
-              className={`ph3 pv2 mt4 ba b--black f6 dib ${disabledButtonClass(isValidForm)}`}
-              type="submit"
-              disabled={!isValidForm}
-            >
+            <FormButton isValidForm={isValidForm} disabled={!isValidForm}>
               Sign In
-            </button>
+            </FormButton>
             <button
               className="f5 dim black lh-copy mt3 link b--none bg-transparent"
               type="button"
