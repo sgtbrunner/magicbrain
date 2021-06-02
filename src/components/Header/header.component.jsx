@@ -2,11 +2,13 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import './header.styles.css';
+import NavigationButton from '../Buttons/NavigationButton';
 
 const Header = ({ isUserSignedIn, clearUser }) => {
   const history = useHistory();
 
+  const navigateToRegister = () => history.push('/register');
+  const navigateToSignIn = () => history.push('/signin');
   const logout = () => {
     clearUser();
     localStorage.clear();
@@ -14,27 +16,13 @@ const Header = ({ isUserSignedIn, clearUser }) => {
   };
 
   return (
-    <nav className="header">
+    <nav className="flex justify-end pt3">
       {isUserSignedIn ? (
-        <button className="f4 link dim black pa3 pointer" onClick={logout} type="button">
-          Sign Out
-        </button>
+        <NavigationButton onClick={logout}>Sign Out</NavigationButton>
       ) : (
         <div>
-          <button
-            className="f4 link dim black pa3 pointer"
-            onClick={() => history.push('/signin')}
-            type="button"
-          >
-            Sign In
-          </button>
-          <button
-            className="f4 link dim black pa3 pointer"
-            onClick={() => history.push('/register')}
-            type="button"
-          >
-            Register
-          </button>
+          <NavigationButton onClick={navigateToSignIn}>Sign In</NavigationButton>
+          <NavigationButton onClick={navigateToRegister}>Register</NavigationButton>
         </div>
       )}
     </nav>
