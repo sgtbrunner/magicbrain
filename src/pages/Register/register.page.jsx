@@ -48,7 +48,12 @@ const Register = ({ loadUser }) => {
   const onFieldChange = (fieldName, event) => {
     const input = getInput[fieldName];
     const isValid = isFieldValid(fieldName, event.target.value);
-    getSetInput[fieldName]({ ...input, value: event.target.value, isValid });
+    getSetInput[fieldName]({
+      ...input,
+      value: event.target.value,
+      isValid,
+      showError: input.showError && !isValid,
+    });
   };
 
   const validateInput = (fieldName) => {
@@ -89,53 +94,57 @@ const Register = ({ loadUser }) => {
       <main className="pa4 black-80">
         <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
           <h2 className="f2 ph0 ma0 noselect">Register</h2>
-          <div style={{ height: 80 }}>
+          <div>
             <label className="db fw6 lh-copy mv2" htmlFor="name">
               Name
               <input
-                className={`pa2 input-reset ba bg-white w-100 ${inputErrorClass(name.showError)}`}
+                className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(name.showError)}`}
                 type="text"
                 name="name"
                 id="name"
                 onChange={(event) => onFieldChange('name', event)}
                 onBlur={() => validateInput('name')}
               />
-              {name.showError && <p className="red f6 mt1">{name.errorText}</p>}
+              {name.showError && (
+                <p className="red f6 absolute mv0 right-0 left-0">{name.errorText}</p>
+              )}
             </label>
           </div>
-          <div style={{ height: 80 }}>
+          <div className="mt4">
             <label className="db fw6 lh-copy mv2" htmlFor="email">
               Email
               <input
-                className={`pa2 input-reset ba bg-white w-100 ${inputErrorClass(email.showError)}`}
+                className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(email.showError)}`}
                 type="email"
                 name="email"
                 id="email"
                 onChange={(event) => onFieldChange('email', event)}
                 onBlur={() => validateInput('email')}
               />
-              {email.showError && <p className="red f6 mt1">{email.errorText}</p>}
+              {email.showError && (
+                <p className="red f6 absolute mv0 right-0 left-0">{email.errorText}</p>
+              )}
             </label>
           </div>
-          <div style={{ height: 80, cursor: '' }}>
-            <label className="db fw6 lh-copy mv2" htmlFor="password">
+          <div className="mt4">
+            <label className="db fw6 lh-copy" htmlFor="password">
               Password
               <input
-                className={`pa2 input-reset ba bg-white w-100 ${inputErrorClass(
-                  password.showError
-                )}`}
+                className={`pa2 mb0 ba bg-white w-100 ${inputErrorClass(password.showError)}`}
                 type="password"
                 name="password"
                 id="password"
                 onChange={(event) => onFieldChange('password', event)}
                 onBlur={() => validateInput('password')}
               />
-              {password.showError && <p className="red f6 mt1">{password.errorText}</p>}
+              {password.showError && (
+                <p className="red f6 absolute mv0 right-0 left-0">{password.errorText}</p>
+              )}
             </label>
           </div>
         </fieldset>
         <button
-          className={`ph3 pv2 ba b--black f6 dib ${disabledButtonClass(isValidForm)}`}
+          className={`ph3 pv2 mt4 ba b--black f6 dib ${disabledButtonClass(isValidForm)}`}
           type="submit"
           disabled={!isValidForm}
         >
