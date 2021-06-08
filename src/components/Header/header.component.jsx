@@ -16,7 +16,7 @@ const Header = ({ isUserSignedIn, clearUser }) => {
   };
 
   return (
-    <nav className="flex justify-end pt3">
+    <nav className="flex justify-end">
       {isUserSignedIn ? (
         <NavigationButton onClick={logout}>Sign Out</NavigationButton>
       ) : (

@@ -8,7 +8,7 @@ const FormInput = ({ name, type, errorData, onChange, onBlur, errorClass, isTopI
     <label className="db fw6 lh-copy mv2" htmlFor={name}>
       {capitalizeFirstLetter(name)}
       <input
-        className={`pa2 mb0 ba bg-white w-100 ${errorClass}`}
+        className={`pa2 mb0 ba bg-white w-100 br2 ${errorClass}`}
         type={type}
         name={name}
         id={name}

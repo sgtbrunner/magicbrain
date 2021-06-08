@@ -2,6 +2,10 @@ button:disabled {
   cursor: not-allowed;
 }
 
+form {
+  background-color: rgba(220, 200, 255, 0.5);
+}
+
 .App {
   text-align: center;
 }
@@ -22,21 +26,12 @@ button:disabled {
 }
 
 .smaller {
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
 .centered {
   display: flex;
   justify-content: center;
-}
-
-.form {
-  background: linear-gradient(
-    to right,
-    rgba(239, 239, 239, 100%) 0%,
-    rgba(219, 219, 219, 100%) 50%,
-    rgba(239, 239, 239, 100%) 100%
-  );
 }
 
 .particles {
