@@ -4,7 +4,7 @@ import Particles from 'react-particles-js';
 
 import Header from '../components/Header';
 import Home from '../pages/Home';
-import NotFound from '../components/NotFound';
+import NotFound from '../pages/NotFound';
 import Register from '../pages/Register';
 import SignIn from '../pages/SignIn';
 import api from '../utils/api.utils';
