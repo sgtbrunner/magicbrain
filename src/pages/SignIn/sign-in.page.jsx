@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
 import {
+  EMAIL,
+  PASSWORD,
   INPUT_INITIAL_STATE,
   EMAIL_ERROR_MESSAGE,
   PASSWORD_ERROR_MESSAGE,
@@ -11,6 +13,7 @@ import {
 } from '../../utils/constants.utils';
 
 import FormButton from '../../components/Buttons/FormButton';
+import FormInput from '../../components/Inputs/FormInput';
 
 const SignIn = ({ loadUser }) => {
   const history = useHistory();
@@ -91,38 +94,23 @@ const SignIn = ({ loadUser }) => {
         <div className="measure">
           <fieldset id="sign_in" className="ba b--transparent ph0 mh0">
             <h2 className="f2 ph0 ma0 noselect">Sign In</h2>
-            <div>
-              <label className="db fw6 lh-copy mv2" htmlFor="email">
-                Email
-                <input
-                  className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(email.showError)}`}
-                  type="email"
-                  name="email"
-                  id="email"
-                  onChange={(event) => onFieldChange('email', event)}
-                  onBlur={() => validateInput('email')}
-                />
-                {email.showError && (
-                  <p className="red f6 absolute mv0 right-0 left-0">{email.errorText}</p>
-                )}
-              </label>
-            </div>
-            <div className="mt4">
-              <label className="db fw6 lh-copy" htmlFor="password">
-                Password
-                <input
-                  className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(password.showError)}`}
-                  type="password"
-                  name="password"
-                  id="password"
-                  onChange={(event) => onFieldChange('password', event)}
-                  onBlur={() => validateInput('password')}
-                />
-                {password.showError && (
-                  <p className="red f6 absolute mv0 right-0 left-0">{password.errorText}</p>
-                )}
-              </label>
-            </div>
+            <FormInput
+              name={EMAIL}
+              type={EMAIL}
+              errorData={{ showError: email.showError, errorText: email.errorText }}
+              errorClass={getInputErrorClass(email.showError)}
+              onChange={onFieldChange}
+              onBlur={validateInput}
+              isTopInput
+            />
+            <FormInput
+              name={PASSWORD}
+              type={PASSWORD}
+              errorData={{ showError: password.showError, errorText: password.errorText }}
+              errorClass={getInputErrorClass(password.showError)}
+              onChange={onFieldChange}
+              onBlur={validateInput}
+            />
           </fieldset>
           <div className="flex flex-column items-center">
             <FormButton isValidForm={isValidForm} disabled={!isValidForm}>

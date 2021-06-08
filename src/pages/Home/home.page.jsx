@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Rank from '../../components/Rank';
 import Logo from '../../components/Logo';
-import ImageLinkForm from '../../components/ImageLinkForm';
+import ImageLinkForm from '../../components/Inputs/ImageLinkForm';
 import FaceRecognition from '../../components/FaceRecognition';
 
 const Home = ({ name, entries, imageUrl, box, onInputChange, onImageDetect }) => (

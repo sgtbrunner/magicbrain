@@ -17,6 +17,9 @@ export const INPUT_INITIAL_STATE = {
   showError: false,
 };
 
+export const EMAIL = 'email';
+export const PASSWORD = 'password';
+
 export const NAME_ERROR_MESSAGE = 'Name cannot be empty';
 export const EMAIL_ERROR_MESSAGE = 'Please enter a valid email address';
 export const PASSWORD_ERROR_MESSAGE = 'Your password must be at least 6 characters long';

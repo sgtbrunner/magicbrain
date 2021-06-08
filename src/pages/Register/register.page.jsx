@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
 import {
+  EMAIL,
+  PASSWORD,
   INPUT_INITIAL_STATE,
   NAME_ERROR_MESSAGE,
   EMAIL_ERROR_MESSAGE,
@@ -11,6 +13,7 @@ import {
 } from '../../utils/constants.utils';
 
 import FormButton from '../../components/Buttons/FormButton';
+import FormInput from '../../components/Inputs/FormInput';
 
 const Register = ({ loadUser }) => {
   const [name, setName] = useState({ ...INPUT_INITIAL_STATE, errorText: NAME_ERROR_MESSAGE });
@@ -93,54 +96,30 @@ const Register = ({ loadUser }) => {
       <main className="pa4 black-80">
         <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
           <h2 className="f2 ph0 ma0 noselect">Register</h2>
-          <div>
-            <label className="db fw6 lh-copy mv2" htmlFor="name">
-              Name
-              <input
-                className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(name.showError)}`}
-                type="text"
-                name="name"
-                id="name"
-                onChange={(event) => onFieldChange('name', event)}
-                onBlur={() => validateInput('name')}
-              />
-              {name.showError && (
-                <p className="red f6 absolute mv0 right-0 left-0">{name.errorText}</p>
-              )}
-            </label>
-          </div>
-          <div className="mt4">
-            <label className="db fw6 lh-copy mv2" htmlFor="email">
-              Email
-              <input
-                className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(email.showError)}`}
-                type="email"
-                name="email"
-                id="email"
-                onChange={(event) => onFieldChange('email', event)}
-                onBlur={() => validateInput('email')}
-              />
-              {email.showError && (
-                <p className="red f6 absolute mv0 right-0 left-0">{email.errorText}</p>
-              )}
-            </label>
-          </div>
-          <div className="mt4">
-            <label className="db fw6 lh-copy" htmlFor="password">
-              Password
-              <input
-                className={`pa2 mb0 ba bg-white w-100 ${getInputErrorClass(password.showError)}`}
-                type="password"
-                name="password"
-                id="password"
-                onChange={(event) => onFieldChange('password', event)}
-                onBlur={() => validateInput('password')}
-              />
-              {password.showError && (
-                <p className="red f6 absolute mv0 right-0 left-0">{password.errorText}</p>
-              )}
-            </label>
-          </div>
+          <FormInput
+            name="name"
+            errorData={{ showError: name.showError, errorText: name.errorText }}
+            errorClass={getInputErrorClass(name.showError)}
+            onChange={onFieldChange}
+            onBlur={validateInput}
+            isTopInput
+          />
+          <FormInput
+            name={EMAIL}
+            type={EMAIL}
+            errorData={{ showError: email.showError, errorText: email.errorText }}
+            errorClass={getInputErrorClass(email.showError)}
+            onChange={onFieldChange}
+            onBlur={validateInput}
+          />
+          <FormInput
+            name={PASSWORD}
+            type={PASSWORD}
+            errorData={{ showError: password.showError, errorText: password.errorText }}
+            errorClass={getInputErrorClass(password.showError)}
+            onChange={onFieldChange}
+            onBlur={validateInput}
+          />
         </fieldset>
         <FormButton isValidForm={isValidForm} disabled={!isValidForm}>
           Register
