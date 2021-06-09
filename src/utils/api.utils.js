@@ -14,20 +14,12 @@ const fetchServer = ({
 
 export default {
   signInUser: ({ email, password }) =>
-    fetchServer({ path: '/signin', body: { email, password } })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(`${response.status} - Unable to sign user in: ${response.statusText}`);
-      })
-      .catch((err) => alert(err)),
+    fetchServer({ path: '/signin', body: { email, password } }).then((response) => response.json()),
 
   registerUser: ({ name, email, password }) =>
-    fetchServer({ path: '/register', body: { name, email, password } })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(`${response.status} - Unable to register user: ${response.statusText}`);
-      })
-      .catch((err) => alert(err)),
+    fetchServer({ path: '/register', body: { name, email, password } }).then((response) =>
+      response.json()
+    ),
 
   getImageBoundary: ({ input }) =>
     fetchServer({ path: '/imageurl', body: { input } })
