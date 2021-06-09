@@ -26,6 +26,7 @@ const SignIn = ({ loadUser }) => {
     ...INPUT_INITIAL_STATE,
     errorText: PASSWORD_ERROR_MESSAGE,
   });
+  const [error, setError] = useState(null);
 
   const getInput = {
     email,
@@ -66,34 +67,33 @@ const SignIn = ({ loadUser }) => {
 
   const getInputErrorClass = (showError) => (showError ? 'b--red' : '');
 
-  const onSignInSubmit = () => {
-    if (email && password) {
-      api.signInUser({ email, password }).then((user) => {
-        if (user?.id) {
-          loadUser(user);
-          localStorage.setItem('user', JSON.stringify(user));
+  const onSignInSubmit = (event) => {
+    event.preventDefault();
+    api
+      .signInUser({ email: email.value, password: password.value })
+      .then((response) => {
+        if (response?.id) {
+          loadUser(response);
+          localStorage.setItem('user', JSON.stringify(response));
         } else {
-          window.alert('Invalid user and/or password');
+          setError(response.error);
         }
-      });
-    } else {
-      window.alert('Email and Password fields should be filled in');
-    }
+      })
+      .catch(() => setError('Something went wrong. Please try again later.'));
   };
-
-  // const handleKeyPress = (event) => {
-  //   return event.key === 'Enter' ? onSignInSubmit() : null;
-  // };
 
   return (
     <form
-      className="br3 ba b--black-10 mv4 w-100 w-50-m mw6 shadow-5 center form smaller"
+      className="br3 ba b--black-10 mv4 w-100 w-50-m mw6 shadow-5 center smaller"
       onSubmit={onSignInSubmit}
     >
-      <main className="pa4 black-80">
+      <main className="pv3 ph4 black-80">
         <div className="measure">
           <fieldset id="sign_in" className="ba b--transparent ph0 mh0">
             <h2 className="f2 ph0 ma0 noselect">Sign In</h2>
+            {error && (
+              <p className="red f6 mv3 pv3 right-0 left-0 b bg-light-pink ba b--red br2">{error}</p>
+            )}
             <FormInput
               name={EMAIL}
               type={EMAIL}

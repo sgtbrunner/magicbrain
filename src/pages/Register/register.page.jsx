@@ -25,6 +25,7 @@ const Register = ({ loadUser }) => {
     ...INPUT_INITIAL_STATE,
     errorText: PASSWORD_ERROR_MESSAGE,
   });
+  const [error, setError] = useState(null);
 
   const getInput = {
     name,
@@ -68,34 +69,32 @@ const Register = ({ loadUser }) => {
 
   const getInputErrorClass = (showError) => (showError ? 'b--red' : '');
 
-  const onRegisterSubmit = () => {
-    if (name && email && password) {
-      api.registerUser({ name, email, password }).then((user) => {
-        if (user?.id) {
-          loadUser(user);
-          localStorage.setItem('user', JSON.stringify(user));
-          window.alert(`User ${user.name} succesfully registered!`);
+  const onRegisterSubmit = (event) => {
+    event.preventDefault();
+    api
+      .registerUser({ name: name.value, email: email.value, password: password.value })
+      .then((response) => {
+        if (response?.id) {
+          loadUser(response);
+          localStorage.setItem('user', JSON.stringify(response));
         } else {
-          window.alert(user);
+          setError(response.error);
         }
-      });
-    } else {
-      window.alert('Name, Email and Password fields should be filled in!');
-    }
+      })
+      .catch(() => setError('Something went wrong. Please try again later.'));
   };
-
-  // const handleKeyPress = (event) => {
-  //   return event.key === 'Enter' ? onRegisterSubmit() : null;
-  // };
 
   return (
     <form
-      className="br3 ba b--black-10 mv4 w-100 w-50-m mw6 shadow-5 center form smaller"
+      className="br3 ba b--black-10 mv4 w-100 w-50-m mw6 shadow-5 center smaller"
       onSubmit={onRegisterSubmit}
     >
-      <main className="pa4 black-80">
+      <main className="pv3 ph4 black-80">
         <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
           <h2 className="f2 ph0 ma0 noselect">Register</h2>
+          {error && (
+            <p className="red f6 mv3 pv3 right-0 left-0 b bg-light-pink ba b--red br2">{error}</p>
+          )}
           <FormInput
             name="name"
             errorData={{ showError: name.showError, errorText: name.errorText }}
