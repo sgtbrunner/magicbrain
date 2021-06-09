@@ -60,8 +60,6 @@ const App = () => {
     history.push('/home');
   };
 
-  const clearUser = () => setUser(INITIAL_USER_DATA);
-
   const onInputChange = (event) => {
     setState({ ...state, input: event.target.value });
   };
@@ -101,30 +99,16 @@ const App = () => {
       });
   };
 
-  const clearFields = () => {
-    if (document.getElementById('name')) {
-      document.getElementById('name').value = '';
-    }
-    document.getElementById('email-address').value = '';
-    document.getElementById('password').value = '';
-  };
-
   return (
     <div className="App">
       <Particles className="particles" params={PARTICLE_OPTIONS} />
-      <Header isUserSignedIn={!!user.id} clearUser={clearUser} />
+      <Header isUserSignedIn={!!user.id} />
       <Switch>
         <Route exact path="/">
           <Redirect to={user.id ? '/home' : '/signin'} />
         </Route>
-        <Route
-          path="/signin"
-          render={() => <SignIn loadUser={loadUser} clearFields={clearFields} />}
-        />
-        <Route
-          path="/register"
-          render={() => <Register loadUser={loadUser} clearFields={clearFields} />}
-        />
+        <Route path="/signin" render={() => <SignIn loadUser={loadUser} />} />
+        <Route path="/register" render={() => <Register loadUser={loadUser} />} />
         <Route
           path="/home"
           render={() => (
