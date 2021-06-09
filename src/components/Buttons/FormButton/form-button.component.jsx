@@ -8,7 +8,7 @@ const FormButton = ({ children, isValidForm, disabled }) => {
 
   return (
     <button
-      className={`ph3 pv2 mt4 ba b--black f6 dib ${isValidClass}`}
+      className={`ph3 pv2 mt3 ba b--black f6 dib ${isValidClass}`}
       type="submit"
       disabled={disabled}
     >
