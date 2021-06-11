@@ -44,7 +44,7 @@ const App = () => {
     const loggedInUser = getUserFromLocalStorage();
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
+      setUser({ ...foundUser, entries: Number(foundUser.entries) });
       history.push('/home');
     }
   }, [history]);
@@ -59,6 +59,10 @@ const App = () => {
     });
     history.push('/home');
   };
+
+  const clearUser = () => setUser(INITIAL_USER_DATA);
+
+  const isUserSignedIn = !!user.id;
 
   const onInputChange = (event) => {
     setState({ ...state, input: event.target.value });
@@ -102,25 +106,29 @@ const App = () => {
   return (
     <div className="App">
       <Particles className="particles" params={PARTICLE_OPTIONS} />
-      <Header isUserSignedIn={!!user.id} />
+      <Header isUserSignedIn={isUserSignedIn} clearUser={clearUser} />
       <Switch>
         <Route exact path="/">
-          <Redirect to={user.id ? '/home' : '/signin'} />
+          <Redirect to={isUserSignedIn ? '/home' : '/signin'} />
         </Route>
         <Route path="/signin" render={() => <SignIn loadUser={loadUser} />} />
         <Route path="/register" render={() => <Register loadUser={loadUser} />} />
         <Route
           path="/home"
-          render={() => (
-            <Home
-              name={name}
-              entries={entries}
-              imageUrl={imageUrl}
-              box={box}
-              onInputChange={onInputChange}
-              onImageDetect={onImageDetect}
-            />
-          )}
+          render={() =>
+            isUserSignedIn ? (
+              <Home
+                name={name}
+                entries={entries}
+                imageUrl={imageUrl}
+                box={box}
+                onInputChange={onInputChange}
+                onImageDetect={onImageDetect}
+              />
+            ) : (
+              <Redirect to={{ pathname: '/signin' }} />
+            )
+          }
         />
         <Route component={NotFound} />
       </Switch>
