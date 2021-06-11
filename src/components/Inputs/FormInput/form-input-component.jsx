@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const capitalizeFirstLetter = (string) => string[0].toUpperCase() + string.slice(1);
+import { capitalizeFirstLetter } from '../../../utils/functions.utils';
 
 const FormInput = ({ name, type, errorData, onChange, onBlur, errorClass, isTopInput }) => (
   <div className={!isTopInput ? 'mt4' : ''}>
