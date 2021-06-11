@@ -12,7 +12,7 @@ const Header = ({ isUserSignedIn, clearUser }) => {
   const logout = () => {
     clearUser();
     localStorage.clear();
-    history.push('/');
+    navigateToSignIn();
   };
 
   return (
