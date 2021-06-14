@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import './image-link-form.styles.css';
 
-const ImageLinkForm = ({ onInputChange, onButtonClick }) => {
-  const onSubmit = (event) => {
+const ImageLinkForm = ({ onFormSubmit }) => {
+  const [imageInput, setImageInput] = useState('');
+
+  const onInputChange = (event) => {
+    setImageInput(event.target.value);
+  };
+
+  const onInputSubmit = (event) => {
     event.preventDefault();
-    onButtonClick();
+    onFormSubmit(imageInput);
   };
 
   return (
@@ -24,8 +30,9 @@ const ImageLinkForm = ({ onInputChange, onButtonClick }) => {
           />
           <button
             className="w-30 f4 link ph3 pv2 dib light bg-light-purple noselect"
-            onClick={onSubmit}
+            onClick={onInputSubmit}
             type="submit"
+            disabled={!imageInput}
           >
             Detect
           </button>
@@ -36,8 +43,7 @@ const ImageLinkForm = ({ onInputChange, onButtonClick }) => {
 };
 
 ImageLinkForm.propTypes = {
-  onInputChange: PropTypes.func.isRequired,
-  onButtonClick: PropTypes.func.isRequired,
+  onFormSubmit: PropTypes.func.isRequired,
 };
 
 export default ImageLinkForm;

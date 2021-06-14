@@ -6,6 +6,7 @@ import api from '../../utils/api.utils';
 import { EMAIL_REGEX_KEY } from '../../utils/constants.utils';
 import { capitalizeFirstLetter, setUserOnLocalStorage } from '../../utils/functions.utils';
 
+import ErrorDisplay from '../ErrorDisplay';
 import FormButton from '../Buttons/FormButton';
 import FormInput from '../Inputs/FormInput';
 
@@ -73,9 +74,7 @@ const UserForm = ({ fields, type, loadUser }) => {
       <main className="pv3 ph4 black-80">
         <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
           <h2 className="f2 ph0 ma0 noselect">{capitalizeFirstLetter(type)}</h2>
-          {error && (
-            <p className="red f6 mv3 pv3 right-0 left-0 b bg-light-pink ba b--red br2">{error}</p>
-          )}
+          {error && <ErrorDisplay error={error} />}
           {fieldsList.map((field) => (
             <FormInput
               name={field.name}
