@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import api from '../../utils/api.utils';
 import { EMAIL_REGEX_KEY } from '../../utils/constants.utils';
-import { capitalizeFirstLetter } from '../../utils/functions.utils';
+import { capitalizeFirstLetter, setUserOnLocalStorage } from '../../utils/functions.utils';
 
 import FormButton from '../Buttons/FormButton';
 import FormInput from '../Inputs/FormInput';
@@ -57,7 +57,7 @@ const UserForm = ({ fields, type, loadUser }) => {
       .then((response) => {
         if (response?.id) {
           loadUser(response);
-          localStorage.setItem('user', JSON.stringify(response));
+          setUserOnLocalStorage(response);
         } else {
           setError(response.error);
         }
