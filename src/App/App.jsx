@@ -7,14 +7,13 @@ import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import Register from '../pages/Register';
 import SignIn from '../pages/SignIn';
-import api from '../utils/api.utils';
 import { PARTICLE_OPTIONS } from '../utils/constants.utils';
 import { getUserFromLocalStorage } from '../utils/functions.utils';
 import 'tachyons';
 import './App.css';
 
 const INITIAL_USER_DATA = {
-  id: '',
+  id: 0,
   name: '',
   email: '',
   entries: 0,
@@ -22,23 +21,9 @@ const INITIAL_USER_DATA = {
 };
 
 const App = () => {
-  const [state, setState] = useState({
-    input: '',
-    imageUrl: '',
-  });
-
   const [user, setUser] = useState(INITIAL_USER_DATA);
 
-  const [box, setBox] = useState({
-    topRow: 0,
-    rightCol: 0,
-    bottomRow: 0,
-    leftCol: 0,
-  });
-
   const history = useHistory();
-  const { input, imageUrl } = state;
-  const { id, name, entries } = user;
 
   useEffect(() => {
     const loggedInUser = getUserFromLocalStorage();
@@ -64,45 +49,6 @@ const App = () => {
 
   const isUserSignedIn = !!user.id;
 
-  const onInputChange = (event) => {
-    setState({ ...state, input: event.target.value });
-  };
-
-  const calculateFaceLocation = (response) => {
-    const clarifaiFace = response.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById('inputimage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - clarifaiFace.right_col * width,
-      bottomRow: height - clarifaiFace.bottom_row * height,
-    };
-  };
-
-  const displayFaceBox = (box) => {
-    setBox({ ...box });
-  };
-
-  const onImageDetect = () => {
-    setState({ ...state, imageUrl: input });
-    api
-      .getImageBoundary({ input })
-      .then((response) => {
-        if (response.outputs) {
-          api
-            .updateImageCount({ id })
-            .then((count) => setUser({ ...user, entries: Number(count) }));
-        }
-        displayFaceBox(calculateFaceLocation(response));
-      })
-      .catch((err) => {
-        alert(err);
-        window.alert('Unable to process your image. Please try a different image later!');
-      });
-  };
-
   return (
     <div className="App">
       <Particles className="particles" params={PARTICLE_OPTIONS} />
@@ -117,14 +63,7 @@ const App = () => {
           path="/home"
           render={() =>
             isUserSignedIn ? (
-              <Home
-                name={name}
-                entries={entries}
-                imageUrl={imageUrl}
-                box={box}
-                onInputChange={onInputChange}
-                onImageDetect={onImageDetect}
-              />
+              <Home user={user} setUser={setUser} />
             ) : (
               <Redirect to={{ pathname: '/signin' }} />
             )
