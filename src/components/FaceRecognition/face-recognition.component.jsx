@@ -12,7 +12,7 @@ const FaceRecognition = ({ box, error, imageUrl, loading }) => {
       <div className="absolute mt2">
         <div className="mb2">
           <LoadingOverlay active={loading} spinner>
-            <img id="input-image" alt="" src={imageUrl} width="500px" height="auto" />
+            <img id="input-image" alt="" src={imageUrl} width="460" />
             <div
               className="bounding-box"
               style={{
