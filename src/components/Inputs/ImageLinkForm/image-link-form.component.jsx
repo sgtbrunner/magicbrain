@@ -21,7 +21,7 @@ const ImageLinkForm = ({ onFormSubmit }) => {
         The <b>MagicBrain</b> will detect faces in your pictures. Give it a try!
       </p>
       <div className="centered smaller">
-        <form className="pa4 br3 custom-shadow-w form centered smaller">
+        <form className="pa4 br3 custom-shadow-w form centered smaller" onSubmit={onInputSubmit}>
           <input
             className="f4 pa2 w-70 centered ba"
             type="text"
@@ -30,7 +30,6 @@ const ImageLinkForm = ({ onFormSubmit }) => {
           />
           <button
             className="w-30 f4 link ph3 pv2 dib light bg-light-purple noselect"
-            onClick={onInputSubmit}
             type="submit"
             disabled={!imageInput}
           >
