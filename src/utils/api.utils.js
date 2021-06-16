@@ -22,22 +22,10 @@ export default {
     ),
 
   getImageBoundary: ({ input }) =>
-    fetchServer({ path: '/imageurl', body: { input } })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(
-          `${response.status} - Unable to get image boundaries: ${response.statusText}`
-        );
-      })
-      .catch((err) => alert(err)),
+    fetchServer({ path: '/imageurl', body: { input } }).then((response) => response.json()),
 
   updateImageCount: ({ id }) =>
-    fetchServer({ path: '/image', method: 'PUT', body: { id } })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(
-          `${response.status} - Unable to update image count: ${response.statusText}`
-        );
-      })
-      .catch((err) => alert(err)),
+    fetchServer({ path: '/image', method: 'PUT', body: { id } }).then((response) =>
+      response.json()
+    ),
 };
