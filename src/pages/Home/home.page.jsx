@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import FaceRecognition from '../../components/FaceRecognition';
@@ -31,10 +32,12 @@ const Home = ({ user, setUser }) => {
   };
 
   const onImageDetect = async (input) => {
-    if (error) setError(null);
-    setLoading(true);
-    setBox(BOX_INITIAL_STATE);
-    setImageUrl(input);
+    unstable_batchedUpdates(() => {
+      if (error) setError(null);
+      setLoading(true);
+      setBox(BOX_INITIAL_STATE);
+      setImageUrl(input);
+    });
     await api
       .getImageBoundary({ input })
       .then((response) => {
