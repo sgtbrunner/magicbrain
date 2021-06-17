@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavigationButton component should match snapshot 1`] = `
+<div>
+  <button
+    class="f4 link black pv2 ma3 b--none bg-transparent"
+    type="button"
+  >
+    Home
+  </button>
+</div>
+`;
