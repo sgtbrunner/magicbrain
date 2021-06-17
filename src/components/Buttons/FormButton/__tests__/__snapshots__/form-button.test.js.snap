@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormButton component should match snapshot 1`] = `
+<div>
+  <button
+    class="ph3 pv2 mt3 ba b--black f6 dib "
+    type="submit"
+  >
+    Register
+  </button>
+</div>
+`;

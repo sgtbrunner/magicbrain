@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 const FormButton = ({ children, isValidForm, disabled }) => {
   const getIsValidFormClass = (isValidForm) => (isValidForm ? 'b bg-lightest-blue grow' : '');
 
-  const isValidClass = getIsValidFormClass(isValidForm);
+  const validClass = getIsValidFormClass(isValidForm);
 
   return (
     <button
-      className={`ph3 pv2 mt3 ba b--black f6 dib ${isValidClass}`}
+      className={`ph3 pv2 mt3 ba b--black f6 dib ${validClass}`}
       type="submit"
       disabled={disabled}
     >
