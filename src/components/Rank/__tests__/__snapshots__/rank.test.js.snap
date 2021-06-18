@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rank component should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      class="white f4"
+    >
+      Hello , your current entry count is...
+    </div>
+    <div
+      class="white f2"
+    >
+      0
+    </div>
+  </div>
+</div>
+`;
