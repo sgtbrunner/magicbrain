@@ -18,7 +18,7 @@ describe('ErrorDisplay component', () => {
   it('should render component with correct error message', () => {
     mountErrorDisplayComponent();
 
-    const error = screen.getByText(ERROR);
-    expect(error).toBeInTheDocument();
+    const error = screen.getByRole('alert');
+    expect(error).toHaveTextContent(ERROR);
   });
 });

@@ -44,8 +44,6 @@ const UserForm = ({ fields, type, loadUser }) => {
     fields[fieldName].setField({ ...input, showError: !input.isValid });
   };
 
-  const getInputErrorClass = (showError) => (showError ? 'b--red' : '');
-
   const onSubmit = (event) => {
     event.preventDefault();
 
@@ -72,18 +70,20 @@ const UserForm = ({ fields, type, loadUser }) => {
         <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
           <h2 className="f2 ph0 ma0 noselect">{capitalizeFirstLetter(type)}</h2>
           {error && <ErrorDisplay error={error} />}
-          {fieldsList.map((field) => (
-            <FormInput
-              name={field.name}
-              type={field.type}
-              key={field.id}
-              errorData={{ showError: field.showError, errorText: field.errorText }}
-              errorClass={getInputErrorClass(field.showError)}
-              onChange={onFieldChange}
-              onBlur={validateInput}
-              isTopInput={field.id === 1}
-            />
-          ))}
+          {fieldsList.map((field) => {
+            const { name, id, type, showError, errorText } = field;
+            return (
+              <FormInput
+                key={id}
+                name={name}
+                type={type}
+                errorData={{ showError: showError, errorText: errorText }}
+                isTopInput={id === 1}
+                onChange={onFieldChange}
+                onBlur={validateInput}
+              />
+            );
+          })}
         </fieldset>
         <div className="flex flex-column items-center">
           <FormButton isValidForm={isValidForm} disabled={!isValidForm}>

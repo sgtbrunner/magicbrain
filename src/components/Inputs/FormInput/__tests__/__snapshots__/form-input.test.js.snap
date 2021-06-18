@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormInput component should match snapshot when input HAS NO errors 1`] = `
+<div>
+  <div
+    class="mt4"
+    data-testid="form-input"
+  >
+    <label
+      class="db fw6 lh-copy mv2"
+      for="test"
+    >
+      Test
+      <input
+        class="pa2 mb0 ba bg-white w-100 br2 () => showError ? 'b--red' : ''"
+        id="test"
+        name="test"
+        type="text"
+      />
+    </label>
+  </div>
+</div>
+`;
+
+exports[`FormInput component should match snapshot when input HAS errors 1`] = `
+<div>
+  <div
+    class="mt4"
+    data-testid="form-input"
+  >
+    <label
+      class="db fw6 lh-copy mv2"
+      for="test"
+    >
+      Test
+      <input
+        class="pa2 mb0 ba bg-white w-100 br2 () => showError ? 'b--red' : ''"
+        id="test"
+        name="test"
+        type="text"
+      />
+      <p
+        class="red f6 absolute mv0 right-0 left-0"
+        role="alert"
+      >
+        Ooopps...an error occurred
+      </p>
+    </label>
+  </div>
+</div>
+`;
