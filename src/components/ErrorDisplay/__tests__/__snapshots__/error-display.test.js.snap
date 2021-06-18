@@ -4,6 +4,7 @@ exports[`ErrorDisplay component should match snapshot 1`] = `
 <div>
   <p
     class="red f6 mv3 pa3 right-0 left-0 b bg-light-pink ba b--red br2"
+    role="alert"
   >
     Oooops...an error occurred
   </p>

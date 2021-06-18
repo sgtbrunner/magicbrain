@@ -3,24 +3,31 @@ import PropTypes from 'prop-types';
 
 import { capitalizeFirstLetter } from '../../../utils/functions.utils';
 
-const FormInput = ({ name, type, errorData, onChange, onBlur, errorClass, isTopInput }) => (
-  <div className={!isTopInput ? 'mt4' : ''}>
-    <label className="db fw6 lh-copy mv2" htmlFor={name}>
-      {capitalizeFirstLetter(name)}
-      <input
-        className={`pa2 mb0 ba bg-white w-100 br2 ${errorClass}`}
-        type={type}
-        name={name}
-        id={name}
-        onChange={(event) => onChange(name, event)}
-        onBlur={() => onBlur(name)}
-      />
-      {errorData.showError && (
-        <p className="red f6 absolute mv0 right-0 left-0">{errorData.errorText}</p>
-      )}
-    </label>
-  </div>
-);
+const FormInput = ({ name, type, errorData, isTopInput, onChange, onBlur }) => {
+  const { errorText, showError } = errorData;
+  const errorClass = () => (showError ? 'b--red' : '');
+
+  return (
+    <div className={!isTopInput ? 'mt4' : ''} data-testid="form-input">
+      <label className="db fw6 lh-copy mv2" htmlFor={name}>
+        {capitalizeFirstLetter(name)}
+        <input
+          className={`pa2 mb0 ba bg-white w-100 br2 ${errorClass}`}
+          type={type}
+          name={name}
+          id={name}
+          onChange={(event) => onChange(name, event)}
+          onBlur={() => onBlur(name)}
+        />
+        {showError && (
+          <p className="red f6 absolute mv0 right-0 left-0" role="alert">
+            {errorText}
+          </p>
+        )}
+      </label>
+    </div>
+  );
+};
 
 FormInput.propTypes = {
   name: PropTypes.string.isRequired,
@@ -31,7 +38,6 @@ FormInput.propTypes = {
   }).isRequired,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  errorClass: PropTypes.string,
   isTopInput: PropTypes.bool,
 };
 
@@ -39,7 +45,6 @@ FormInput.defaultProps = {
   type: 'text',
   onChange: () => {},
   onBlur: () => {},
-  errorClass: '',
   isTopInput: false,
 };
 
