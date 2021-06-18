@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 
 import { mountComponent } from '../../../../utils/test.utils';
-import NavigationButton from '../navigation-button.component';
+import NavigationButton from '..';
 
 const HOME = 'Home';
 const onClick = jest.fn();

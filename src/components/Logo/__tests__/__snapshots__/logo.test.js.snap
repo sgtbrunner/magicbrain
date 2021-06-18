@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logo component should match snapshot 1`] = `
+<div>
+  <div
+    class="ma4 mt0 tiltbox centered"
+  >
+    <div
+      class="Tilt shadow-2"
+      style="height: 130px; width: 130px;"
+    >
+      <div
+        class="Tilt-inner pa4 tiltbox"
+      >
+        <img
+          alt="logo"
+          class="noselect"
+          src="brain.png"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
