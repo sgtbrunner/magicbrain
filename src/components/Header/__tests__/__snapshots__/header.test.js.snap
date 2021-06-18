@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component should match snapshot when user IS NOT signed id 1`] = `
+<div>
+  <nav
+    class="flex justify-end"
+  >
+    <div>
+      <button
+        class="f4 link black pv2 ma3 b--none bg-transparent"
+        type="button"
+      >
+        Sign In
+      </button>
+      <button
+        class="f4 link black pv2 ma3 b--none bg-transparent"
+        type="button"
+      >
+        Register
+      </button>
+    </div>
+  </nav>
+</div>
+`;
+
+exports[`Header component should match snapshot when user IS signed id 1`] = `
+<div>
+  <nav
+    class="flex justify-end"
+  >
+    <button
+      class="f4 link black pv2 ma3 b--none bg-transparent"
+      type="button"
+    >
+      Sign Out
+    </button>
+  </nav>
+</div>
+`;

@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 
 import { mountComponent } from '../../../../utils/test.utils';
-import FormButton from '../form-button.component';
+import FormButton from '..';
 
 const REGISTER = 'Register';
 const BUTTON = 'button';
