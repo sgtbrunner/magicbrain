@@ -66,7 +66,9 @@ const Home = ({ user, setUser }) => {
       <Rank name={name} entries={entries} />
       <Logo />
       <ImageLinkForm onFormSubmit={onImageDetect} />
-      <FaceRecognition box={box} error={error} imageUrl={imageUrl} loading={loading} />
+      {imageUrl && (
+        <FaceRecognition box={box} error={error} imageUrl={imageUrl} loading={loading} />
+      )}
     </div>
   );
 };
