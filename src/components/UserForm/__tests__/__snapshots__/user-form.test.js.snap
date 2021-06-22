@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserForm component should match snapshot when type is 'register' 1`] = `
+<div>
+  <form
+    class="br3 ba b--black-10 mv4 mw6 shadow-5 center smaller"
+  >
+    <main
+      class="pv3 ph4 black-80"
+    >
+      <fieldset
+        class="ba b--transparent ph0 mh0"
+        id="sign-in"
+      >
+        <h2
+          class="f2 ph0 ma0 noselect"
+        >
+          Register
+        </h2>
+        <div
+          class=""
+          data-testid="form-input"
+        >
+          <label
+            class="db fw6 lh-copy mv2"
+            for="name"
+          >
+            Name
+            <input
+              class="pa2 mb0 ba bg-white w-100 br2 () => showError ? 'b--red' : ''"
+              id="name"
+              name="name"
+              type="text"
+            />
+          </label>
+        </div>
+        <div
+          class="mt4"
+          data-testid="form-input"
+        >
+          <label
+            class="db fw6 lh-copy mv2"
+            for="email"
+          >
+            Email
+            <input
+              class="pa2 mb0 ba bg-white w-100 br2 () => showError ? 'b--red' : ''"
+              id="email"
+              name="email"
+              type="email"
+            />
+          </label>
+        </div>
+        <div
+          class="mt4"
+          data-testid="form-input"
+        >
+          <label
+            class="db fw6 lh-copy mv2"
+            for="password"
+          >
+            Password
+            <input
+              class="pa2 mb0 ba bg-white w-100 br2 () => showError ? 'b--red' : ''"
+              id="password"
+              name="password"
+              type="password"
+            />
+          </label>
+        </div>
+      </fieldset>
+      <div
+        class="flex flex-column items-center"
+      >
+        <button
+          class="ph3 pv2 mt3 ba b--black f6 dib "
+          disabled=""
+          type="submit"
+        >
+          Register
+        </button>
+      </div>
+    </main>
+  </form>
+</div>
+`;
+
+exports[`UserForm component should match snapshot when type is 'sign in' 1`] = `
+<div>
+  <form
+    class="br3 ba b--black-10 mv4 mw6 shadow-5 center smaller"
+  >
+    <main
+      class="pv3 ph4 black-80"
+    >
+      <fieldset
+        class="ba b--transparent ph0 mh0"
+        id="sign-in"
+      >
+        <h2
+          class="f2 ph0 ma0 noselect"
+        >
+          Sign in
+        </h2>
+        <div
+          class="mt4"
+          data-testid="form-input"
+        >
+          <label
+            class="db fw6 lh-copy mv2"
+            for="email"
+          >
+            Email
+            <input
+              class="pa2 mb0 ba bg-white w-100 br2 () => showError ? 'b--red' : ''"
+              id="email"
+              name="email"
+              type="email"
+            />
+          </label>
+        </div>
+        <div
+          class="mt4"
+          data-testid="form-input"
+        >
+          <label
+            class="db fw6 lh-copy mv2"
+            for="password"
+          >
+            Password
+            <input
+              class="pa2 mb0 ba bg-white w-100 br2 () => showError ? 'b--red' : ''"
+              id="password"
+              name="password"
+              type="password"
+            />
+          </label>
+        </div>
+      </fieldset>
+      <div
+        class="flex flex-column items-center"
+      >
+        <button
+          class="ph3 pv2 mt3 ba b--black f6 dib "
+          disabled=""
+          type="submit"
+        >
+          Sign in
+        </button>
+        <button
+          class="f5 dim black lh-copy mt3 link b--none bg-transparent"
+          type="button"
+        >
+          Register now, it's free!
+        </button>
+      </div>
+    </main>
+  </form>
+</div>
+`;
