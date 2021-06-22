@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotFound Page should match snapshot 1`] = `
+<div>
+  <div
+    class="f3 fw6 pt6 pr6 pl6 black-80"
+  >
+    <h1>
+      Oooooppssss.......
+    </h1>
+    <h3>
+      You were not supposed to see this!
+    </h3>
+    <h5>
+      Click
+       
+      <button
+        class="link-button"
+        type="button"
+      >
+        here
+      </button>
+       
+      to go back
+    </h5>
+  </div>
+</div>
+`;
