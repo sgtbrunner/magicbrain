@@ -10,6 +10,7 @@ exports[`Rank component should match snapshot 1`] = `
     </div>
     <div
       class="white f2"
+      data-testid="user-entries"
     >
       0
     </div>

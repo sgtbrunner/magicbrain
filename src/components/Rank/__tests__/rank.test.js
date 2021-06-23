@@ -5,6 +5,8 @@ import Rank from '..';
 
 const mountRankComponent = (props) => mountComponent({ component: Rank, props });
 
+const USER_ENTRIES = 'user-entries';
+
 describe('Rank component', () => {
   it('should match snapshot', () => {
     const { container } = mountRankComponent({ name: '', entries: 0 });
@@ -20,8 +22,8 @@ describe('Rank component', () => {
     const nameText = screen.getByText(`Hello ${name}, your current entry count is...`);
     expect(nameText).toBeInTheDocument();
 
-    const entriesText = screen.getByText(entries);
-    expect(entriesText).toBeInTheDocument();
+    const entriesText = screen.getByTestId(USER_ENTRIES);
+    expect(entriesText).toHaveTextContent(entries);
   });
 
   it(`should render thirteen(23) entries rank info for user 'admin'`, () => {
@@ -32,7 +34,7 @@ describe('Rank component', () => {
     const nameText = screen.getByText(`Hello ${name}, your current entry count is...`);
     expect(nameText).toBeInTheDocument();
 
-    const entriesText = screen.getByText(entries);
-    expect(entriesText).toBeInTheDocument();
+    const entriesText = screen.getByTestId(USER_ENTRIES);
+    expect(entriesText).toHaveTextContent(entries);
   });
 });
