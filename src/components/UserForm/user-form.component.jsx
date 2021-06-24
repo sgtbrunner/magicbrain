@@ -65,7 +65,11 @@ const UserForm = ({ fields, type, loadUser }) => {
   };
 
   return (
-    <form className="br3 ba b--black-10 mv4 mw6 shadow-5 center smaller" onSubmit={onSubmit}>
+    <form
+      className="br3 ba b--black-10 mv4 mw6 shadow-5 center smaller"
+      onSubmit={onSubmit}
+      data-testid="user-form"
+    >
       <main className="pv3 ph4 black-80">
         <fieldset id="sign-in" className="ba b--transparent ph0 mh0">
           <h2 className="f2 ph0 ma0 noselect">{capitalizeFirstLetter(type)}</h2>
