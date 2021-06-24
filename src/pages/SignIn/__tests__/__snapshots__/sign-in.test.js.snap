@@ -4,6 +4,7 @@ exports[`SignIn component should match snapshot 1`] = `
 <div>
   <form
     class="br3 ba b--black-10 mv4 mw6 shadow-5 center smaller"
+    data-testid="user-form"
   >
     <main
       class="pv3 ph4 black-80"
