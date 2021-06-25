@@ -5,6 +5,27 @@ export const USER = {
   entries: 7,
 };
 
+export const OUTPUTS = {
+  outputs: [
+    {
+      data: {
+        regions: [
+          {
+            region_info: {
+              bounding_box: {
+                top_row: 0.5,
+                left_col: 0.5,
+                bottom_row: 0.5,
+                right_col: 0.5,
+              },
+            },
+          },
+        ],
+      },
+    },
+  ],
+};
+
 export const CREDENTIAL_ERROR = {
   error: 'You have entered an invalid username and/or password',
 };
