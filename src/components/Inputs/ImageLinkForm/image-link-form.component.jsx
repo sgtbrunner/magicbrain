@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import './image-link-form.styles.css';
 
+const IMAGE_LINK_FORM = 'image-link-form';
+
 const ImageLinkForm = ({ onFormSubmit }) => {
   const [imageInput, setImageInput] = useState('');
 
@@ -16,28 +18,29 @@ const ImageLinkForm = ({ onFormSubmit }) => {
   };
 
   return (
-    <div>
-      <p className="f3 smaller">
-        The <b>MagicBrain</b> will detect faces in your pictures. Give it a try!
-      </p>
-      <div className="centered smaller">
-        <form className="pa4 br3 custom-shadow-w form centered smaller" onSubmit={onInputSubmit}>
-          <input
-            className="f4 pa2 w-70 centered ba"
-            type="text"
-            placeholder="enter the image URL here"
-            onChange={onInputChange}
-          />
-          <button
-            className="w-30 f4 link ph3 pv2 dib light bg-light-purple noselect"
-            type="submit"
-            disabled={!imageInput}
-          >
-            Detect
-          </button>
-        </form>
-      </div>
-    </div>
+    <label className="f3" htmlFor={IMAGE_LINK_FORM}>
+      The <b>MagicBrain</b> will detect faces in your pictures. Give it a try!
+      <form
+        className="pa4 br3 mt3 custom-shadow-w form smaller center"
+        id={IMAGE_LINK_FORM}
+        data-testid={IMAGE_LINK_FORM}
+        onSubmit={onInputSubmit}
+      >
+        <input
+          className="f4 pa2 w-70 ba"
+          type="text"
+          placeholder="enter the image URL here"
+          onChange={onInputChange}
+        />
+        <button
+          className="w-30 f4 link ph3 pv2 dib light bg-light-purple noselect"
+          type="submit"
+          disabled={!imageInput}
+        >
+          Detect
+        </button>
+      </form>
+    </label>
   );
 };
 

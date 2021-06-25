@@ -29,10 +29,6 @@ const mountApp = () =>
   );
 
 describe('App', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it.skip('should match snapshot', () => {
     const { container } = mountApp();
 

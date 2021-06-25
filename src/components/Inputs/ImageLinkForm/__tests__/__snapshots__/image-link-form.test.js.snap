@@ -2,36 +2,33 @@
 
 exports[`ImageLinkForm component should match snapshot 1`] = `
 <div>
-  <div>
-    <p
-      class="f3 smaller"
+  <label
+    class="f3"
+    for="image-link-form"
+  >
+    The 
+    <b>
+      MagicBrain
+    </b>
+     will detect faces in your pictures. Give it a try!
+    <form
+      class="pa4 br3 mt3 custom-shadow-w form smaller center"
+      data-testid="image-link-form"
+      id="image-link-form"
     >
-      The 
-      <b>
-        MagicBrain
-      </b>
-       will detect faces in your pictures. Give it a try!
-    </p>
-    <div
-      class="centered smaller"
-    >
-      <form
-        class="pa4 br3 custom-shadow-w form centered smaller"
+      <input
+        class="f4 pa2 w-70 ba"
+        placeholder="enter the image URL here"
+        type="text"
+      />
+      <button
+        class="w-30 f4 link ph3 pv2 dib light bg-light-purple noselect"
+        disabled=""
+        type="submit"
       >
-        <input
-          class="f4 pa2 w-70 centered ba"
-          placeholder="enter the image URL here"
-          type="text"
-        />
-        <button
-          class="w-30 f4 link ph3 pv2 dib light bg-light-purple noselect"
-          disabled=""
-          type="submit"
-        >
-          Detect
-        </button>
-      </form>
-    </div>
-  </div>
+        Detect
+      </button>
+    </form>
+  </label>
 </div>
 `;
