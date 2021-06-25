@@ -12,6 +12,7 @@ const FormInput = ({ name, type, errorData, isTopInput, onChange, onBlur }) => {
       <label className="db fw6 lh-copy mv2" htmlFor={name}>
         {capitalizeFirstLetter(name)}
         <input
+          data-testid={`${name}-input`}
           className={`pa2 mb0 ba bg-white w-100 br2 ${errorClass}`}
           type={type}
           name={name}
