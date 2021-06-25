@@ -1,21 +1,16 @@
 import { screen } from '@testing-library/react';
+import { USER } from '../../../utils/mocks.utils';
 
 import { mountComponent } from '../../../utils/test.utils';
 import Home from '..';
 
 const USER_ENTRIES = 'user-entries';
-const ENTRIES = 7;
 
 const mountHomePage = () =>
   mountComponent({
     component: Home,
     props: {
-      user: {
-        id: 3,
-        name: 'test',
-        email: 'test@test.com',
-        entries: ENTRIES,
-      },
+      user: USER,
       setUser: jest.fn(),
     },
   });
@@ -38,6 +33,6 @@ describe('Home Page', () => {
     mountHomePage();
 
     const entries = screen.getByTestId(USER_ENTRIES);
-    expect(entries).toHaveTextContent(ENTRIES);
+    expect(entries).toHaveTextContent(USER.entries);
   });
 });

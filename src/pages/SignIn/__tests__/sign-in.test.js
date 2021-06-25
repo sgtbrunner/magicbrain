@@ -1,14 +1,15 @@
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import { capitalizeFirstLetter } from '../../../utils/functions.utils';
 import { mountComponent } from '../../../utils/test.utils';
+import { USER } from '../../../utils/mocks.utils';
 import SignIn from '..';
 
 const BUTTON = 'button';
-const EMAIL = 'email';
+const EMAIL_INPUT = 'email-input';
 const FORM_INPUT = 'form-input';
 const HEADING = 'heading';
-const PASSWORD = 'password';
+const PASSWORD_INPUT = 'password-input';
 const SIGN_IN = 'Sign in';
 
 const mountSignInPage = () =>
@@ -42,10 +43,10 @@ describe('SignIn page', () => {
     const inputFields = screen.getAllByTestId(FORM_INPUT);
     expect(inputFields).toHaveLength(2);
 
-    const emailInput = screen.getByLabelText(capitalizeFirstLetter(EMAIL));
+    const emailInput = screen.getByTestId(EMAIL_INPUT);
     expect(emailInput).toBeInTheDocument();
 
-    const passwordInput = screen.getByLabelText(capitalizeFirstLetter(PASSWORD));
+    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
     expect(passwordInput).toBeInTheDocument();
   });
 
@@ -54,6 +55,19 @@ describe('SignIn page', () => {
 
     const button = screen.getByRole(BUTTON, { name: SIGN_IN });
     expect(button).toBeDisabled();
+  });
+
+  it(`should have submit button enabled if input fields are valid`, () => {
+    mountSignInPage();
+
+    const emailInput = screen.getByTestId(EMAIL_INPUT);
+    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
+
+    userEvent.type(emailInput, USER.email);
+    userEvent.type(passwordInput, 'test123');
+
+    const signInButton = screen.getByRole(BUTTON, { name: SIGN_IN });
+    expect(signInButton).toBeEnabled();
   });
 
   it(`should render a register link`, () => {
