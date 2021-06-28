@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/magicbrain/static/css/main.0d574a71.chunk.css",
+    "main.js": "/magicbrain/static/js/main.c7b05978.chunk.js",
+    "main.js.map": "/magicbrain/static/js/main.c7b05978.chunk.js.map",
+    "runtime~main.js": "/magicbrain/static/js/runtime~main.b0d1cafc.js",
+    "runtime~main.js.map": "/magicbrain/static/js/runtime~main.b0d1cafc.js.map",
+    "static/css/2.c7a63f68.chunk.css": "/magicbrain/static/css/2.c7a63f68.chunk.css",
+    "static/js/2.464c9d35.chunk.js": "/magicbrain/static/js/2.464c9d35.chunk.js",
+    "static/js/2.464c9d35.chunk.js.map": "/magicbrain/static/js/2.464c9d35.chunk.js.map",
+    "index.html": "/magicbrain/index.html",
+    "precache-manifest.704f220a5e5749cf7ebc783fa188439c.js": "/magicbrain/precache-manifest.704f220a5e5749cf7ebc783fa188439c.js",
+    "service-worker.js": "/magicbrain/service-worker.js",
+    "static/css/2.c7a63f68.chunk.css.map": "/magicbrain/static/css/2.c7a63f68.chunk.css.map",
+    "static/css/main.0d574a71.chunk.css.map": "/magicbrain/static/css/main.0d574a71.chunk.css.map",
+    "static/media/brain.png": "/magicbrain/static/media/brain.7467e8cb.png"
+  }
+}
