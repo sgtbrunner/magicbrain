@@ -123,7 +123,7 @@ Have `npm` installed in your machine.
    http://localhost:3000/
    ```
 
-    To fully benefit from MagicBrain login and face detection capabilities, it is required to either run the MagicBrain API (default PORT 5000) or point the development environment `REACT_APP_API_ENDPOINT` config constant in the `.env.development` file to `https://mighty-beyond-04256.herokuapp.com`.
+    To fully benefit from MagicBrain login and face detection capabilities, it is required to either run the [MagicBrain API](https://github.com/sgtbrunner/magicbrain-api/) (default PORT 5000) or point the development environment `REACT_APP_API_ENDPOINT` config constant in the `.env.development` file to `https://mighty-beyond-04256.herokuapp.com`.
     <br />
     <br />
     Once loaded, you can sign up or login onto the app...
